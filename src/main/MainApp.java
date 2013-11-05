@@ -22,18 +22,13 @@ public class MainApp {
 
 	public void start() {
 
-		t.schedule(new TimerAction(), 0,
+		t.schedule(new TimerAction(), Configuration.startDelay,
 				Configuration.refreshInterval);
 	}
 
 	public void readRSSFeeds() {
 		DatabaseConnection db = new DatabaseConnection();
-		
-		try {
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		System.out.println(db.getRSS_POPISModel());
 	}
 
 	class TimerAction extends TimerTask {
