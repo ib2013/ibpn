@@ -28,7 +28,25 @@ public class MainApp {
 
 	public void readRSSFeeds() {
 		DatabaseConnection db = new DatabaseConnection();
-		System.out.println(db.getRSS_POPISModel());
+		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
+		ArrayList<Model>  feedList = new ArrayList<Model>();
+		for (RssPopisModel rss : sourcesList){
+			switch(rss.getIdRssSource()){
+			case 1: // The Pirate Bay
+				
+				TorrentAdapter torrentAdapter = new TorrentAdapter(rss.getRssFeed());
+				feedList.addAll(torrentAdapter.getMessages());
+				break;
+			/*case 2: //neki drugi servis
+			 * break;
+			 */
+			}
+		}
+		
+		for (Model x : feedList){
+			System.out.println(x.toString());
+		}
+		
 	}
 
 	class TimerAction extends TimerTask {
