@@ -28,7 +28,7 @@ public class MainApp {
 	}
 
 	public void readRSSFeeds() {
-		DatabaseConnection db = new DatabaseConnection();
+		/*DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
 		ArrayList<Model>  feedList = new ArrayList<Model>();
 		for (RssPopisModel rss : sourcesList){
@@ -40,13 +40,15 @@ public class MainApp {
 				break;
 			/*case 2: //neki drugi servis
 			 * break;
-			 */
+			 *//*
 			}
 		}
 		
 		for (Model x : feedList){
 			System.out.println(x.toString());
-		}
+		}*/
+		
+		
 
 	}
 
