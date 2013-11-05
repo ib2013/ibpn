@@ -18,7 +18,6 @@ public class TorrentAdapter {
 	  static final String DESCRIPTION = "description";
 	  static final String CHANNEL = "channel";
 	  static final String LINK = "link";
-	  static final String AUTHOR = "author";
 	  static final String ITEM = "item";
 	  static final String PUB_DATE = "pubDate";
 	  static final String GUID = "guid";
@@ -42,7 +41,6 @@ public class TorrentAdapter {
 	      String description = "";
 	      String title = "";
 	      String link = "";   
-	      String author = "";
 	      String pubdate = "";
 	      String guid = "";
 
@@ -76,10 +74,6 @@ public class TorrentAdapter {
 	            break;
 	          case GUID:
 	            guid = getCharacterData(event, eventReader);
-	            break;
-	         
-	          case AUTHOR:
-	            author = getCharacterData(event, eventReader);
 	            break;
 	          case PUB_DATE:
 	            pubdate = getCharacterData(event, eventReader);
