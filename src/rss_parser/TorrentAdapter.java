@@ -17,8 +17,6 @@ public class TorrentAdapter {
 	static final String TITLE = "title";
 	  static final String DESCRIPTION = "description";
 	  static final String CHANNEL = "channel";
-	  static final String LANGUAGE = "language";
-	  static final String COPYRIGHT = "copyright";
 	  static final String LINK = "link";
 	  static final String AUTHOR = "author";
 	  static final String ITEM = "item";
@@ -43,9 +41,7 @@ public class TorrentAdapter {
 	      // Set header values intial to the empty string
 	      String description = "";
 	      String title = "";
-	      String link = "";
-	      String language = "";
-	      String copyright = "";
+	      String link = "";   
 	      String author = "";
 	      String pubdate = "";
 	      String guid = "";
@@ -65,8 +61,7 @@ public class TorrentAdapter {
 	          case ITEM:
 	            if (isFeedHeader) {
 	              isFeedHeader = false;
-	              feed = new Feed(title, link, description, language,
-	                  copyright, pubdate);
+	              feed = new Feed(title, link, description, pubdate);
 	            }
 	            event = eventReader.nextEvent();
 	            break;
@@ -82,18 +77,14 @@ public class TorrentAdapter {
 	          case GUID:
 	            guid = getCharacterData(event, eventReader);
 	            break;
-	          case LANGUAGE:
-	            language = getCharacterData(event, eventReader);
-	            break;
+	         
 	          case AUTHOR:
 	            author = getCharacterData(event, eventReader);
 	            break;
 	          case PUB_DATE:
 	            pubdate = getCharacterData(event, eventReader);
 	            break;
-	          case COPYRIGHT:
-	            copyright = getCharacterData(event, eventReader);
-	            break;
+	    
 	          }
 	        } else if (event.isEndElement()) {
 	          if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
