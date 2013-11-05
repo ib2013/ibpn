@@ -27,6 +27,10 @@ public class Feed {
 	  public ArrayList<Model> getMessages() {
 		return entries;
 	  }
+	  
+	  public void addMessage(Model model) {
+		  entries.add(model);
+	  }
 
 	  public String getTitle() {
 	    return title;

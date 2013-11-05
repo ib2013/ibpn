@@ -72,7 +72,7 @@ public class TorrentAdapter {
 	            title = getCharacterData(event, eventReader);
 	            break;
 	          case DESCRIPTION:
-	            description = getCharacterData(event, eventReader);
+	            description = formatString(getCharacterData(event, eventReader));
 	            break;
 	          case LINK:
 	            link = getCharacterData(event, eventReader);
@@ -99,7 +99,7 @@ public class TorrentAdapter {
 	            message.setDescription(description);
 	            message.setLink(guid);
 	            message.setTitle(title);
-	            feed.getMessages().add(message);
+	            feed.addMessage(message);
 	            event = eventReader.nextEvent();
 	            continue;
 	          }
@@ -119,6 +119,10 @@ public class TorrentAdapter {
 	      result = event.asCharacters().getData();
 	    }
 	    return result;
+	  }
+	  
+	  private String formatString(String inString) {
+		  return " ";
 	  }
 
 	  private InputStream read() {
