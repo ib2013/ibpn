@@ -46,7 +46,7 @@ public class MainApp {
 		for (Model x : feedList){
 			System.out.println(x.toString());
 		}
-		
+
 	}
 
 	class TimerAction extends TimerTask {

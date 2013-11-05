@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import rss_parser.Model;
+
 public class DatabaseConnection {
 	Connection connection;
 	
 	public Connection getConnection(){
 		return connection;
 	}
+
 
 	public DatabaseConnection() {
 		try {
@@ -30,7 +33,7 @@ public class DatabaseConnection {
 		Statement statement;
 
 		try {
-
+			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM RSS_POPIS");
 
@@ -53,7 +56,7 @@ public class DatabaseConnection {
 
 		ResultSet resultSet;
 		Statement statement;
-
+		
 		try {
 
 			statement = connection.createStatement();
@@ -73,11 +76,9 @@ public class DatabaseConnection {
 	}
 
 	public String getRSS_POPISModel() {
-
+		String returnValue = new String();
 		ResultSet resultSet;
 		Statement statement;
-
-		String returnValue = new String();
 
 		try {
 			statement = connection.createStatement();
@@ -99,5 +100,60 @@ public class DatabaseConnection {
 		}
 
 		return returnValue;
+	}
+	
+	public void insertIntoRssPopis(RssPopisModel model) {
+		boolean resultSet;
+		Statement statement;
+		
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.execute("INSERT INTO RSS_POPIS(RSS_FEED, OPIS, FK_RSS_SOURCE) VALUES('" + model.getRssFeed() + "', '" + model.getOpis() + "', " + model.getIdRssSource() + ");");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public boolean deleteFromRssPopis(RssPopisModel model) {
+		boolean result = false;
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID=" + model.getId() +";");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public boolean insertIntoRssSource(RssSourceModel model) {
+		
+		boolean result=false;
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			result = statement.execute("INSERT INTO RSS_SOURCE(SOURCE_NAME) VALUES('" + model.getSourceName() + "');");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	
+	public boolean deleteFromRssSource(RssSourceModel model){
+		boolean result=false;
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			result = statement.execute("DELETE FROM RSS_SOURCE WHERE ID="+model.getId()+";");
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 }
