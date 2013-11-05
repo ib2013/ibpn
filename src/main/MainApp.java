@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+
 import java.io.StringReader;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -16,6 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 import java.util.TimerTask;
 import java.util.Timer;
 import java.sql.Connection;
@@ -38,7 +46,7 @@ public class MainApp {
 	Timer t;
 
 	public MainApp() {
-		t = new Timer();
+			t = new Timer();
 	}
 
 	public void start() {
@@ -68,15 +76,7 @@ public class MainApp {
 		for (Model x : feedList) {
 			//System.out.println(x.toString());
 		}
-		@SuppressWarnings("deprecation")
-		DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzzzz");
-		
-		Date dat1=new Date("Tue, 05 Nov 2013 15:28:59 +0100");
-		Date dat2=new Date("Tue, 05 Nov 2013 15:28:59 +0100");
-		if(dat1.compareTo(dat2)>0){
-		 System.out.println("veci je");
-		}
-		 
+
 		try {
 			// dohvatanje svih kanala u JSON formatu
 			@SuppressWarnings("deprecation")
@@ -106,11 +106,23 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public boolean hasMatch(String torrentName, String channelName) {
+		
+		String[] splitString = channelName.split(" ");
+		for(int i=0; i<splitString.length; i++) {
+			if(!torrentName.toLowerCase().contains(splitString[i].toLowerCase())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	class TimerAction extends TimerTask {

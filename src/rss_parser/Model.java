@@ -1,11 +1,14 @@
 package rss_parser;
 
+import java.util.Date;
+
 public class Model {
 
 	String title;
 	String description;
 	String link;
 	int id;
+	Date date;
 
 	public Model() {
 		
@@ -50,11 +53,21 @@ public class Model {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	@Override
 	public String toString() {
 		return "Model [title=" + title + ", description=" + description
-				+ ", link=" + link + "]";
+				+ ", link=" + link + ", id=" + id + ", date=" + date + "]";
 	}
+
+	
 
 }
