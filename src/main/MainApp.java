@@ -28,8 +28,9 @@ public class MainApp {
 
 	public void readRSSFeeds() {
 		DatabaseConnection db = new DatabaseConnection();
+		
 		System.out.println(db.getRSS_POPISModel());
-		db.insertIntoRssPopis(new RssPopisModel(1, "FeedProba", "DescriptionProba", 44));
+
 	}
 
 	class TimerAction extends TimerTask {
