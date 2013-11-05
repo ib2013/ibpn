@@ -1,38 +1,44 @@
 package main;
 
 import rss_parser.*;
+import dbmodels.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.Timer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class MainApp {
 	Timer t;
-	
-	public MainApp(){
+
+	public MainApp() {
 		t = new Timer();
 	}
-	
-	public void start(){
-		
-		t.schedule(new TimerAction(), Configuration.refreshInterval, Configuration.refreshInterval);
+
+	public void start() {
+
+		t.schedule(new TimerAction(), 0,
+				Configuration.refreshInterval);
 	}
-	
-	public void readRSSFeeds(){
-		TorrentAdapter torrentAdapter = new TorrentAdapter("http://rss.thepiratebay.sx/205");
-		ArrayList<Model> models = torrentAdapter.getMessages();
+
+	public void readRSSFeeds() {
+		DatabaseConnection db = new DatabaseConnection();
 		
-		for (Model message : models){
-			System.out.println(message.toString());
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
-	class TimerAction extends TimerTask{
-		public void run(){
+
+	class TimerAction extends TimerTask {
+		public void run() {
 			readRSSFeeds();
 		}
 	}
 }
-
