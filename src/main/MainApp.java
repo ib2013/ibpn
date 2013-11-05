@@ -108,21 +108,39 @@ public class MainApp {
 			}
 			
 
+			updateUsersWithNotifications(feedList, channelList);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
+	public void updateUsersWithNotifications(ArrayList<Model> feedList,
+			ArrayList<String> channelList) {
+		for (Model x : feedList) {
+			for (String y : channelList) {
+				if (hasMatch(x.getTitle(), y)) {
+					notifyChannel(new PushNotification(x,y), y);
+				}
+			}
+		}
+	}
+
 	public boolean hasMatch(String torrentName, String channelName) {
-		
+
 		String[] splitString = channelName.split(" ");
-		for(int i=0; i<splitString.length; i++) {
-			if(!torrentName.toLowerCase().contains(splitString[i].toLowerCase())) {
+		for (int i = 0; i < splitString.length; i++) {
+			if (!torrentName.toLowerCase().contains(
+					splitString[i].toLowerCase())) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	public void notifyChannel(PushNotification notif, String channelName) {
+		System.out.println(notif.toString());
 	}
 
 	class TimerAction extends TimerTask {
