@@ -62,5 +62,8 @@ public class Feed {
 	        + ", language=" + language + ", link=" + link + ", pubDate="
 	        + pubDate + ", title=" + title + "]";
 	  }
-
+	  
+	  public String getInfo() {
+		  return this.toString();
+	  }
 }
