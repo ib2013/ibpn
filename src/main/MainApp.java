@@ -10,7 +10,12 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.sql.Connection;
@@ -21,7 +26,6 @@ import java.sql.Statement;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.JsonArray;
@@ -62,9 +66,17 @@ public class MainApp {
 		}
 
 		for (Model x : feedList) {
-			System.out.println(x.toString());
+			//System.out.println(x.toString());
 		}
-
+		@SuppressWarnings("deprecation")
+		DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzzzz");
+		
+		Date dat1=new Date("Tue, 05 Nov 2013 15:28:59 +0100");
+		Date dat2=new Date("Tue, 05 Nov 2013 15:28:59 +0100");
+		if(dat1.compareTo(dat2)>0){
+		 System.out.println("veci je");
+		}
+		 
 		try {
 			// dohvatanje svih kanala u JSON formatu
 			@SuppressWarnings("deprecation")
