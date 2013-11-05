@@ -115,7 +115,7 @@ public class TorrentAdapter {
 	  }
 	  
 	  private String formatString(String inString) {
-		  return " ";
+		  return "New TV Show Episode!";
 	  }
 
 	  private InputStream read() {

@@ -13,15 +13,12 @@ public class ReadTest {
 		    // Ispisivanje poruka iz feed-a
 		    for (Model message : feed.getMessages()) {
 		      System.out.println(message);
-		      
 		    }
 		    
 		    // Ispisivanje poruka direktno iz TorrentAdapter-a
 		    for (Model message : parser.getMessages()) {
 			      System.out.println(message);
-			      
 			}
 		  }
-	  
 	  
 }
