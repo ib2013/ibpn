@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -23,6 +24,8 @@ public class TorrentAdapter {
 	  static final String ITEM = "item";
 	  static final String PUB_DATE = "pubDate";
 	  static final String GUID = "guid";
+	  
+	  static Feed feed = null;
 
 	  final URL url;
 
@@ -35,7 +38,6 @@ public class TorrentAdapter {
 	  }
 
 	  public Feed readFeed() {
-	    Feed feed = null;
 	    try {
 	      boolean isFeedHeader = true;
 	      // Set header values intial to the empty string
@@ -132,5 +134,11 @@ public class TorrentAdapter {
 	      throw new RuntimeException(e);
 	    }
 	  }
+	  
+	  public ArrayList<Model> getMessages() {
+		  feed = this.readFeed();
+		  return feed.getMessages();
+	  }
+	  
 
 }
