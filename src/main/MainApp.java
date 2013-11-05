@@ -74,8 +74,9 @@ public class MainApp {
 		}
 
 		for (Model x : feedList) {
-			//System.out.println(x.toString());
+			System.out.println(x.toString());
 		}
+
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
@@ -106,8 +107,7 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
-			
-
+		
 			updateUsersWithNotifications(feedList, channelList);
 
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class MainApp {
 	}
 
 	public boolean hasMatch(String torrentName, String channelName) {
-
+        if(channelName.toLowerCase().equals("ALL_TORRENTS".toLowerCase())) return true;
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
 			if (!torrentName.toLowerCase().contains(
