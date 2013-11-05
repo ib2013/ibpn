@@ -28,7 +28,9 @@ public class MainApp {
 
 	public void readRSSFeeds() {
 		DatabaseConnection db = new DatabaseConnection();
+		
 		System.out.println(db.getRSS_POPISModel());
+		
 	}
 
 	class TimerAction extends TimerTask {
