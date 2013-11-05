@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import rss_parser.Model;
+
 public class DatabaseConnection {
 	Connection connection;
-	public ResultSet resultSet;
-	public Statement statement;
 
 	public DatabaseConnection() {
 		try {
@@ -21,6 +21,8 @@ public class DatabaseConnection {
 	}
 	
 	public String getRSS_POPISModel(){
+		ResultSet resultSet;
+		Statement statement;
 		String returnValue = new String();
 		
 		try {
@@ -36,6 +38,34 @@ public class DatabaseConnection {
 		}
 		
 		return returnValue;
+	}
+	
+	public void insertIntoRssPopis(RssPopisModel model) {
+		boolean resultSet;
+		Statement statement;
+		
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.execute("INSERT INTO RSS_POPIS(RSS_FEED, OPIS, FK_RSS_SOURCE) VALUES('" + model.getRssFeed() + "', '" + model.getOpis() + "', " + model.getIdRssSource() + ");");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public boolean deleteFromRssPopis(RssPopisModel model) {
+		boolean result = false;
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID=" + model.getId() +";");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 }
