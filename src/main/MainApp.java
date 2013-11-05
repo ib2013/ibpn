@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.sql.Connection;
@@ -32,7 +36,7 @@ public class MainApp {
 	Timer t;
 
 	public MainApp() {
-		t = new Timer();
+			t = new Timer();
 	}
 
 	public void start() {
@@ -62,7 +66,8 @@ public class MainApp {
 		for (Model x : feedList) {
 			System.out.println(x.toString());
 		}
-
+		
+		
 		try {
 			// dohvatanje svih kanala u JSON formatu
 			HttpClient client = new DefaultHttpClient();
@@ -91,11 +96,23 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public boolean hasMatch(String torrentName, String channelName) {
+		
+		String[] splitString = channelName.split(" ");
+		for(int i=0; i<splitString.length; i++) {
+			if(!torrentName.toLowerCase().contains(splitString[i].toLowerCase())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	class TimerAction extends TimerTask {

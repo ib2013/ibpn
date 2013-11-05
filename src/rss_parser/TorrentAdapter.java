@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -86,6 +87,7 @@ public class TorrentAdapter {
 	            message.setDescription(description);
 	            message.setLink(guid);
 	            message.setTitle(title);
+	            message.setDate(new Date(pubdate));
 	            feed.addMessage(message);
 	            event = eventReader.nextEvent();
 	            continue;
