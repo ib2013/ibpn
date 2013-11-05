@@ -96,8 +96,7 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
-			
-
+		
 			updateUsersWithNotifications(feedList, channelList);
 
 		} catch (Exception e) {
