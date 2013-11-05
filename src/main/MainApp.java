@@ -5,6 +5,10 @@ import dbmodels.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -12,7 +16,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import com.google.*;
+import com.google.gson.stream.JsonReader;
 
 public class MainApp {
 	Timer t;
@@ -28,28 +39,7 @@ public class MainApp {
 	}
 
 	public void readRSSFeeds() {
-		/*DatabaseConnection db = new DatabaseConnection();
-		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
-		ArrayList<Model>  feedList = new ArrayList<Model>();
-		for (RssPopisModel rss : sourcesList){
-			switch(rss.getIdRssSource()){
-			case 1: // The Pirate Bay
-				
-				TorrentAdapter torrentAdapter = new TorrentAdapter(rss.getRssFeed());
-				feedList.addAll(torrentAdapter.getMessages());
-				break;
-			/*case 2: //neki drugi servis
-			 * break;
-			 *//*
-			}
-		}
 		
-		for (Model x : feedList){
-			System.out.println(x.toString());
-		}*/
-		
-		
-
 	}
 
 	class TimerAction extends TimerTask {
