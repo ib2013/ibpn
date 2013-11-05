@@ -1,4 +1,0 @@
-ibpn
-====
-
-infobip push notifications
