@@ -1,6 +1,6 @@
 package rss_parser;
 
-import java.awt.List;
+
 import java.util.ArrayList;
 
 public class Feed {
