@@ -37,7 +37,7 @@ public class MainApp extends HttpServlet {
 
 	public MainApp() {
 		t = new Timer();
-		lastFeedDate = new Date(91,11,21);
+		lastFeedDate = Configuration.defaultDate;
 	}
 	
 	@Override
@@ -69,12 +69,11 @@ public class MainApp extends HttpServlet {
 		}
 
 		for (Model x : feedList) {
-			 //System.out.println(x.toString());
+			 System.out.println(x.toString());
 		}
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
-			@SuppressWarnings("deprecation")
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(
 					"https://pushapi.infobip.com/1/application/9cabf301d3db/channels");
@@ -118,8 +117,6 @@ public class MainApp extends HttpServlet {
 			e.printStackTrace();
 		}
 		lastFeedDate = maxDate;
-		System.out.println("--------------------------------------------------------------------");
-
 	}
 
 	public void updateUsersWithNotifications(ArrayList<Model> feedList,
@@ -128,6 +125,7 @@ public class MainApp extends HttpServlet {
 			for (String y : channelList) {
 				if (hasMatch(x, y)) {
 					notifyChannel(new PushNotification(x, y), y);
+					System.out.println("--------------------------------------------------------------------");
 				}
 			}
 		}
@@ -173,8 +171,6 @@ public class MainApp extends HttpServlet {
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
 			System.out.println(notif.toString());
-			//System.out.println(response.toString());
-			//System.out.println(gson.toJson(notif));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
