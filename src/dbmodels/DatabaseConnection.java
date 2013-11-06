@@ -129,14 +129,14 @@ public class DatabaseConnection {
 		}
 	}
 
-	public void insertIntoRssPopis(RssPopisModel model) {
-		boolean resultSet;
+	public boolean insertIntoRssPopis(RssPopisModel model) {
+		boolean result = false;
 		Statement statement = null;
 		try {
 			connect();
 
 			statement = connection.createStatement();
-			resultSet = statement
+			result = statement
 					.execute("INSERT INTO RSS_POPIS(RSS_FEED, OPIS, FK_RSS_SOURCE) VALUES('"
 							+ model.getRssFeed()
 							+ "', '"
@@ -152,7 +152,7 @@ public class DatabaseConnection {
 				e.printStackTrace();
 			}
 		}
-
+		return result;
 	}
 
 	@SuppressWarnings("finally")
@@ -161,7 +161,6 @@ public class DatabaseConnection {
 		Statement statement = null;
 		try {
 			connect();
-			
 
 			statement = connection.createStatement();
 			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID="
@@ -185,7 +184,7 @@ public class DatabaseConnection {
 		boolean result = false;
 		Statement statement = null;
 		try {
-			
+
 			connect();
 			statement = connection.createStatement();
 			result = statement

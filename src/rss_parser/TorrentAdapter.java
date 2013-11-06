@@ -88,6 +88,7 @@ public class TorrentAdapter {
 	            message.setLink(guid);
 	            message.setTitle(title);
 	            message.setDate(new Date(pubdate));
+	            message.setId(1); //id za TPB
 	            feed.addMessage(message);
 	            event = eventReader.nextEvent();
 	            continue;
