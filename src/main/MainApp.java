@@ -183,6 +183,7 @@ public class MainApp {
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
+			System.out.println(notif.toString());
 			//System.out.println(response.toString());
 			//System.out.println(gson.toJson(notif));
 		} catch (Exception e) {
