@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-
 import java.io.StringReader;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -17,13 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
-
 import java.util.TimerTask;
 import java.util.Timer;
 import java.sql.Connection;
@@ -45,6 +43,7 @@ import com.google.gson.stream.JsonReader;
 public class MainApp {
 	Timer t;
 	Date lastFeedDate;
+	HashMap<String, Date> lastFeedDates = new HashMap<String, Date>();
 
 	public MainApp() {
 		t = new Timer();
@@ -70,17 +69,7 @@ public class MainApp {
 				TorrentAdapter torrentAdapter = new TorrentAdapter(
 						rss.getRssFeed());
 
-				ArrayList<Model> torrentMessages = torrentAdapter.getMessages();
-
-				for (Model message : torrentMessages) {
-					if (message.getDate().compareTo(lastFeedDate) > 0) {
-						feedList.add(message);
-						if (message.getDate().compareTo(maxDate) > 0){
-							maxDate=message.getDate();
-						}
-					}
-
-				}
+				feedList.addAll(torrentAdapter.getMessages());
 
 				break; /*
 						 * case 2: /neki drugi servis break;
@@ -88,9 +77,9 @@ public class MainApp {
 			}
 		}
 
-		for (Model x : feedList) {
+		/*for (Model x : feedList) {
 			System.out.println(x.toString());
-		}
+		}*/
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
@@ -121,6 +110,12 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
+			
+			for (String channelName : channelList){
+				if (!lastFeedDates.containsKey(channelName)){
+					lastFeedDates.put(channelName, Configuration.defaultDate);
+				}
+			}
 
 			updateUsersWithNotifications(feedList, channelList);
 
@@ -136,23 +131,37 @@ public class MainApp {
 			ArrayList<String> channelList) {
 		for (Model x : feedList) {
 			for (String y : channelList) {
-				if (hasMatch(x.getTitle(), y)) {
+				if (hasMatch(x, y)) {
 					notifyChannel(new PushNotification(x, y), y);
 				}
 			}
 		}
 	}
 
-	public boolean hasMatch(String torrentName, String channelName) {
-		if (channelName.toUpperCase().equals("ALL TORRENTS"))
+	public boolean hasMatch(Model torrent, String channelName) {
+		
+		Date lastTorrentFeedDate = lastFeedDates.get(channelName);
+		if (lastTorrentFeedDate == null){
+			lastFeedDates.put(channelName, Configuration.defaultDate);
+			lastTorrentFeedDate = Configuration.defaultDate;
+		}
+		
+		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0) return false;
+		
+		if (channelName.toUpperCase().equals("ALL TORRENTS")){
+			lastFeedDates.put(channelName, torrent.getDate());
 			return true;
+		}
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
-			if (!torrentName.toLowerCase().contains(
+			if (!torrent.getTitle().toLowerCase().contains(
 					splitString[i].toLowerCase())) {
 				return false;
 			}
 		}
+		
+		System.out.println(torrent.toString());
+		lastFeedDates.put(channelName, torrent.getDate());
 		return true;
 	}
 
