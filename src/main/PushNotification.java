@@ -17,7 +17,11 @@ public class PushNotification {
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
 	public PushNotification(Model x, String channelName) {
-		this.notificationMessage = channelName;
+		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
+			this.notificationMessage = x.getTitle();
+		} else {
+			this.notificationMessage = channelName;
+		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
 		androidData = new Data("TBP | Nova epizoda!");
