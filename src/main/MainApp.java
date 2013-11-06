@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-
 import java.io.StringReader;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -17,13 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
 import java.util.TimerTask;
 import java.util.Timer;
 import java.sql.Connection;
@@ -31,11 +28,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -46,7 +47,7 @@ public class MainApp {
 	Timer t;
 
 	public MainApp() {
-			t = new Timer();
+		t = new Timer();
 	}
 
 	public void start() {
@@ -74,9 +75,8 @@ public class MainApp {
 		}
 
 		for (Model x : feedList) {
-			System.out.println(x.toString());
+			// System.out.println(x.toString());
 		}
-
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
@@ -107,7 +107,7 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
-		
+
 			updateUsersWithNotifications(feedList, channelList);
 
 		} catch (Exception e) {
@@ -115,20 +115,21 @@ public class MainApp {
 		}
 
 	}
-	
+
 	public void updateUsersWithNotifications(ArrayList<Model> feedList,
 			ArrayList<String> channelList) {
 		for (Model x : feedList) {
 			for (String y : channelList) {
-				if (hasMatch(x.getTitle(), y)) {
-					notifyChannel(new PushNotification(x,y), y);
+				if (hasMatch(x.getTitle(), "ALL_TORRENTS")) {
+					notifyChannel(new PushNotification(x, y), y);
 				}
 			}
 		}
 	}
 
 	public boolean hasMatch(String torrentName, String channelName) {
-        if(channelName.toLowerCase().equals("ALL_TORRENTS".toLowerCase())) return true;
+		if (channelName.toLowerCase().equals("ALL_TORRENTS".toLowerCase()))
+			return true;
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
 			if (!torrentName.toLowerCase().contains(
@@ -140,7 +141,22 @@ public class MainApp {
 	}
 
 	public void notifyChannel(PushNotification notif, String channelName) {
-		System.out.println(notif.toString());
+
+		Gson gson = new Gson();
+		try {
+			StringEntity parms = new StringEntity(gson.toJson(notif));
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost(
+					"https://pushapi.infobip.com/3/application/9cabf301d3db/message");
+			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
+			request.addHeader("content-type", "application/json");
+			request.setEntity(parms);
+			HttpResponse response = client.execute(request);
+			//System.out.println(response.toString());
+			//System.out.println(gson.toJson(notif));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	class TimerAction extends TimerTask {
