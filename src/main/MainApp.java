@@ -128,7 +128,7 @@ public class MainApp {
 	}
 
 	public boolean hasMatch(String torrentName, String channelName) {
-        if(channelName.toLowerCase().equals("ALL_TORRENTS".toLowerCase())) return true;
+        if(channelName.toUpperCase().equals("ALL TORRENTS")) return true;
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
 			if (!torrentName.toLowerCase().contains(
