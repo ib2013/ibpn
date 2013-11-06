@@ -118,7 +118,9 @@ public class MainApp {
 			
 			for (String channelName : channelList){
 				if (!lastFeedDates.containsKey(channelName)){
-					lastFeedDates.put(channelName, new Date());
+					Date date = new Date();
+					date.setTime(date.getTime() - 60*60*1000);
+					lastFeedDates.put(channelName, date);
 				}
 			}
 
