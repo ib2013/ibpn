@@ -29,11 +29,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -77,9 +81,9 @@ public class MainApp {
 			}
 		}
 
-		/*for (Model x : feedList) {
-			System.out.println(x.toString());
-		}*/
+		for (Model x : feedList) {
+			 //System.out.println(x.toString());
+		}
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
@@ -110,12 +114,14 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
+
 			
 			for (String channelName : channelList){
 				if (!lastFeedDates.containsKey(channelName)){
 					lastFeedDates.put(channelName, Configuration.defaultDate);
 				}
 			}
+
 
 			updateUsersWithNotifications(feedList, channelList);
 
@@ -166,7 +172,22 @@ public class MainApp {
 	}
 
 	public void notifyChannel(PushNotification notif, String channelName) {
-		System.out.println(notif.toString());
+
+		Gson gson = new Gson();
+		try {
+			StringEntity parms = new StringEntity(gson.toJson(notif));
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost(
+					"https://pushapi.infobip.com/3/application/9cabf301d3db/message");
+			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
+			request.addHeader("content-type", "application/json");
+			request.setEntity(parms);
+			HttpResponse response = client.execute(request);
+			//System.out.println(response.toString());
+			//System.out.println(gson.toJson(notif));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	class TimerAction extends TimerTask {
