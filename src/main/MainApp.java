@@ -1,35 +1,15 @@
 package main;
 
-import rss_parser.*;
-import dbmodels.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimerTask;
 import java.util.Timer;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.TimerTask;
 
-import org.apache.http.HttpRequest;
+import javax.servlet.http.HttpServlet;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -37,25 +17,32 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import rss_parser.Model;
+import rss_parser.TorrentAdapter;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
-public class MainApp {
+import dbmodels.DatabaseConnection;
+import dbmodels.RssPopisModel;
+
+public class MainApp extends HttpServlet {
 	Timer t;
 	Date lastFeedDate;
 	HashMap<String, Date> lastFeedDates = new HashMap<String, Date>();
+	static final long serialVersionUID = 10000;
 
 	public MainApp() {
 		t = new Timer();
 		lastFeedDate = new Date(91,11,21);
 	}
-
-	public void start() {
-
+	
+	@Override
+	public void init() {
+		
 		t.schedule(new TimerAction(), Configuration.startDelay,
 				Configuration.refreshInterval);
 	}
