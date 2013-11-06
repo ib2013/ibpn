@@ -44,9 +44,11 @@ import com.google.gson.stream.JsonReader;
 
 public class MainApp {
 	Timer t;
+	Date lastFeedDate;
 
 	public MainApp() {
-			t = new Timer();
+		t = new Timer();
+		lastFeedDate = new Date(91,11,21);
 	}
 
 	public void start() {
@@ -56,7 +58,8 @@ public class MainApp {
 	}
 
 	public void readRSSFeeds() {
-
+		Date maxDate = lastFeedDate;
+		
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
 		ArrayList<Model> feedList = new ArrayList<Model>();
@@ -66,7 +69,19 @@ public class MainApp {
 
 				TorrentAdapter torrentAdapter = new TorrentAdapter(
 						rss.getRssFeed());
-				feedList.addAll(torrentAdapter.getMessages());
+
+				ArrayList<Model> torrentMessages = torrentAdapter.getMessages();
+
+				for (Model message : torrentMessages) {
+					if (message.getDate().compareTo(lastFeedDate) > 0) {
+						feedList.add(message);
+						if (message.getDate().compareTo(maxDate) > 0){
+							maxDate=message.getDate();
+						}
+					}
+
+				}
+
 				break; /*
 						 * case 2: /neki drugi servis break;
 						 */
@@ -76,7 +91,6 @@ public class MainApp {
 		for (Model x : feedList) {
 			System.out.println(x.toString());
 		}
-
 
 		try {
 			// dohvatanje svih kanala u JSON formatu
@@ -107,28 +121,31 @@ public class MainApp {
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
 			}
-		
+
 			updateUsersWithNotifications(feedList, channelList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		lastFeedDate = maxDate;
+		System.out.println("--------------------------------------------------------------------");
 
 	}
-	
+
 	public void updateUsersWithNotifications(ArrayList<Model> feedList,
 			ArrayList<String> channelList) {
 		for (Model x : feedList) {
 			for (String y : channelList) {
 				if (hasMatch(x.getTitle(), y)) {
-					notifyChannel(new PushNotification(x,y), y);
+					notifyChannel(new PushNotification(x, y), y);
 				}
 			}
 		}
 	}
 
 	public boolean hasMatch(String torrentName, String channelName) {
-        if(channelName.toUpperCase().equals("ALL TORRENTS")) return true;
+		if (channelName.toUpperCase().equals("ALL TORRENTS"))
+			return true;
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
 			if (!torrentName.toLowerCase().contains(
