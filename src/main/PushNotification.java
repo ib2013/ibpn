@@ -24,7 +24,7 @@ public class PushNotification {
 		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
-		androidData = new Data("TBP | Nova epizoda!");
+		androidData = new Data("TBP | Novi torrent!");
 		channelNames.add(channelName);
 	}
 
