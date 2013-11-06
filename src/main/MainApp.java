@@ -44,9 +44,11 @@ import com.google.gson.stream.JsonReader;
 
 public class MainApp {
 	Timer t;
+	Date lastFeedDate;
 
 	public MainApp() {
 			t = new Timer();
+			lastFeedDate = new Date(1992,2,6);
 	}
 
 	public void start() {
@@ -66,7 +68,13 @@ public class MainApp {
 
 				TorrentAdapter torrentAdapter = new TorrentAdapter(
 						rss.getRssFeed());
-				feedList.addAll(torrentAdapter.getMessages());
+				ArrayList<Model> torrentMessages = torrentAdapter.getMessages();
+				
+				for (Model message : torrentMessages){
+				
+				}
+				
+				//feedList.addAll(torrentAdapter.getMessages());
 				break; /*
 						 * case 2: /neki drugi servis break;
 						 */
