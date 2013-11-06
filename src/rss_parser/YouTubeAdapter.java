@@ -80,7 +80,7 @@ public class YouTubeAdapter {
 		            message.setDescription("YouTube video");
 		            message.setLink(link);
 		            message.setTitle(title);
-		            
+		            message.setId(2);
 		            SimpleDateFormat formatter;
 		            formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		            
