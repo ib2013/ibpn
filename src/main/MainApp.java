@@ -19,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import rss_parser.Model;
 import rss_parser.TorrentAdapter;
+import rss_parser.YouTubeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -39,17 +40,17 @@ public class MainApp extends HttpServlet {
 		t = new Timer();
 		lastFeedDate = Configuration.defaultDate;
 	}
-	
+
 	@Override
 	public void init() {
-		
+
 		t.schedule(new TimerAction(), Configuration.startDelay,
 				Configuration.refreshInterval);
 	}
 
 	public void readRSSFeeds() {
 		Date maxDate = lastFeedDate;
-		
+
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
 		ArrayList<Model> feedList = new ArrayList<Model>();
@@ -62,14 +63,17 @@ public class MainApp extends HttpServlet {
 
 				feedList.addAll(torrentAdapter.getMessages());
 
-				break; /*
-						 * case 2: /neki drugi servis break;
-						 */
+				break;
+			case 2: // YouTube
+
+				YouTubeAdapter ytAdapter = new YouTubeAdapter(rss.getRssFeed());
+				feedList.addAll(ytAdapter.getMessages());
+				break;
 			}
 		}
 
 		for (Model x : feedList) {
-			 System.out.println(x.toString());
+			System.out.println(x.toString());
 		}
 
 		try {
@@ -101,15 +105,13 @@ public class MainApp extends HttpServlet {
 						.getAsString());
 			}
 
-			
-			for (String channelName : channelList){
-				if (!lastFeedDates.containsKey(channelName)){
+			for (String channelName : channelList) {
+				if (!lastFeedDates.containsKey(channelName)) {
 					Date date = new Date();
-					date.setTime(date.getTime() - 60*60*1000);
+					date.setTime(date.getTime() - 60 * 60 * 1000);
 					lastFeedDates.put(channelName, date);
 				}
 			}
-
 
 			updateUsersWithNotifications(feedList, channelList);
 
@@ -125,34 +127,36 @@ public class MainApp extends HttpServlet {
 			for (String y : channelList) {
 				if (hasMatch(x, y)) {
 					notifyChannel(new PushNotification(x, y), y);
-					System.out.println("--------------------------------------------------------------------");
+					System.out
+							.println("--------------------------------------------------------------------");
 				}
 			}
 		}
 	}
 
 	public boolean hasMatch(Model torrent, String channelName) {
-		
+
 		Date lastTorrentFeedDate = lastFeedDates.get(channelName);
-		if (lastTorrentFeedDate == null){
+		if (lastTorrentFeedDate == null) {
 			lastFeedDates.put(channelName, Configuration.defaultDate);
 			lastTorrentFeedDate = Configuration.defaultDate;
 		}
-		
-		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0) return false;
-		
-		if (channelName.toUpperCase().equals("ALL TORRENTS")){
+
+		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)
+			return false;
+
+		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
 			lastFeedDates.put(channelName, torrent.getDate());
 			return true;
 		}
 		String[] splitString = channelName.split(" ");
 		for (int i = 0; i < splitString.length; i++) {
-			if (!torrent.getTitle().toLowerCase().contains(
-					splitString[i].toLowerCase())) {
+			if (!torrent.getTitle().toLowerCase()
+					.contains(splitString[i].toLowerCase())) {
 				return false;
 			}
 		}
-		
+
 		System.out.println(torrent.toString());
 		lastFeedDates.put(channelName, torrent.getDate());
 		return true;
