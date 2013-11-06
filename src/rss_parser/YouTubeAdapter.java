@@ -18,7 +18,7 @@ public class YouTubeAdapter {
 	  static final String TITLE = "title";
 	  static final String ID = "id";
 	  static final String LINK = "link";
-	  static final String PUB_DATE = "published";
+	  static final String PUB_DATE = "updated";
 	  
 	  static Feed feed = null;
 	  URL url = null;
@@ -66,7 +66,11 @@ public class YouTubeAdapter {
 		            break;
 		          case ID:
 		        	  // <id>tag:youtube.com,2008:video:dMH0bHeiRNg</id>
-		            link = "http://www.youtube.com/watch?v=" + getCharacterData(event, eventReader).substring(42);
+		             String link1 = getCharacterData(event, eventReader);
+		             if(link1.length()>42){
+		              link = "http://www.youtube.com/watch?v="+link1.substring(42);
+		             }
+		        	
 		            break;
 		          case PUB_DATE:
 		            published = getCharacterData(event, eventReader);
