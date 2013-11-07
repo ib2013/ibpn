@@ -26,7 +26,7 @@ public class PushNotification {
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
 	public PushNotification(MessageModel x, String channelName) {
-		if (channelName.toUpperCase().equals(Configuration.DEFAULT_CHANNEL_NAME)) {
+		if (channelName.toUpperCase().equals(Configuration.DEFAULT_CHANNEL_NAME.toUpperCase())) {
 			this.notificationMessage = x.getTitle();
 		} else {
 			this.notificationMessage = channelName;
