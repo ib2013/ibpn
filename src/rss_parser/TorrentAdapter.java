@@ -7,16 +7,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.security.auth.login.Configuration;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-public class TorrentAdapter {
+public class TorrentAdapter implements SourceAdapter{
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
-	static final String CHANNEL = "channel";
 	static final String LINK = "link";
 	static final String ITEM = "item";
 	static final String PUB_DATE = "pubDate";
@@ -25,6 +25,10 @@ public class TorrentAdapter {
 	static Feed feed = null;
 
 	URL url = null;
+	
+	public TorrentAdapter() {
+		
+	}
 
 	public TorrentAdapter(String feedUrl) {
 		try {
@@ -69,8 +73,8 @@ public class TorrentAdapter {
 						title = getCharacterData(event, eventReader);
 						break;
 					case DESCRIPTION:
-						description = formatString(getCharacterData(event,
-								eventReader));
+						description = getCharacterData(event,
+								eventReader);
 						break;
 					case LINK:
 						link = getCharacterData(event, eventReader);
@@ -113,10 +117,6 @@ public class TorrentAdapter {
 		return result;
 	}
 
-	private String formatString(String inString) {
-		return " ";
-	}
-
 	private InputStream read() {
 		try {
 			return url.openStream();
@@ -132,6 +132,13 @@ public class TorrentAdapter {
 		} else {
 			return new ArrayList<Model>();
 		}
+	}
+
+	@Override
+	public boolean canIDoIt(int id) {
+		if(id==main.Configuration.TPB_ID) return true;
+		
+		return false;
 	}
 
 }

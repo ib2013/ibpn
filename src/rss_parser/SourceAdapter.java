@@ -6,5 +6,5 @@ public interface SourceAdapter {
 
 	public abstract ArrayList<Model> getMessages();
 
-	public abstract boolean canIDoIt();
+	public abstract boolean canIDoIt(int id);
 }

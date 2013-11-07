@@ -14,7 +14,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-public class YouTubeAdapter {
+public class YouTubeSourceAdapter implements SourceAdapter{
 	  static final String TITLE = "title";
 	  static final String ID = "id";
 	  static final String LINK = "link";
@@ -23,7 +23,7 @@ public class YouTubeAdapter {
 	  static Feed feed = null;
 	  URL url = null;
 	  
-	  public YouTubeAdapter(String feedUrl) {
+	  public YouTubeSourceAdapter(String feedUrl) {
 		  try {
 			  this.url = new URL(feedUrl);
 		  }
@@ -41,7 +41,6 @@ public class YouTubeAdapter {
 		      String link = "";   
 		      String published = "";
 		      String id = "";
-		      
 
 		      // First create a new XMLInputFactory
 		      XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -76,11 +75,9 @@ public class YouTubeAdapter {
 		          case PUB_DATE:
 		            published = getCharacterData(event, eventReader);
 		            break;
-		    
 		          }
 		        } else if (event.isEndElement()) {
 		          if (event.asEndElement().getName().getLocalPart() == "entry") {
-		        	
 		            Model message = new Model();
 		            message.setDescription("YouTube video");
 		            message.setLink(link);
@@ -93,12 +90,8 @@ public class YouTubeAdapter {
 		             Date date = formatter.parse(published.substring(0, 24));
 		             message.setDate(date);
 		            } catch (Exception e) {
-		             // TODO Auto-generated catch block
-		             e.printStackTrace();
-		            
+		            	e.printStackTrace();
 		            }
-		            
-		            
 		            feed.addMessage(message);
 		            event = eventReader.nextEvent();
 		            continue;
@@ -121,10 +114,6 @@ public class YouTubeAdapter {
 		    return result;
 		  }
 	  
-	  private String formatString(String inString) {
-		  return " ";
-	  }
-	  
 	  private InputStream read() {
 		    try {
 		      return url.openStream();
@@ -141,5 +130,11 @@ public class YouTubeAdapter {
 			  return new ArrayList<Model>();
 		  }
 	  }
+
+	@Override
+	public boolean canIDoIt(int id) {
+		if(id==main.Configuration.YT_ID) return true;
+		return false;
+	}
 	  
 }
