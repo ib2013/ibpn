@@ -152,7 +152,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 	}
 
 	@Override
-	public boolean canIDoIt(int id) {
+	public boolean isValid(int id) {
 		if (id == main.Configuration.YT_ID)
 			return true;
 		return false;

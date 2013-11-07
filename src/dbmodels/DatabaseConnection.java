@@ -93,24 +93,6 @@ public class DatabaseConnection {
 		}
 	}
 
-	@SuppressWarnings("finally")
-	/*
-	 * public String getRSS_POPISModel() { String returnValue = new String();
-	 * ResultSet resultSet = null; Statement statement = null; try { connect();
-	 * 
-	 * statement = connection.createStatement(); resultSet =
-	 * statement.executeQuery("SELECT * FROM RSS_POPIS");
-	 * 
-	 * while (resultSet.next()) { returnValue += "ID:" +
-	 * resultSet.getInt("ID_RSS") + "\n"; returnValue += "RSS:" +
-	 * resultSet.getString("RSS_FEED") + "\n"; returnValue += "OPIS:" +
-	 * resultSet.getString("OPIS") + "\n"; try { returnValue += "IZVOR:" +
-	 * resultSet.getInt("FK_RSS_SOURCE") + "\n"; } catch (Exception e) {
-	 * returnValue += "IZVOR: NULL"; } } } catch (Exception e) {
-	 * e.printStackTrace(); } finally { try { connection.close();
-	 * resultSet.close(); statement.close(); } catch (SQLException e) {
-	 * e.printStackTrace(); } return returnValue; } }
-	 */
 	public boolean insertIntoRssPopis(RssPopisModel model) {
 		boolean result = false;
 		Statement statement = null;
