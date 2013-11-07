@@ -25,7 +25,6 @@ public class DatabaseConnection {
 				"jdbc:h2:tcp://192.168.1.178/~/test", "sa", "");
 	}
 
-
 	public ArrayList<RssPopisModel> fetchAllRssPopisModels() {
 		ResultSet resultSet = null;
 		Statement statement = null;
@@ -44,7 +43,7 @@ public class DatabaseConnection {
 						resultSet.getInt("FK_RSS_SOURCE"));
 				rezultat.add(rssPopis);
 			}
-			
+
 			return rezultat;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,41 +94,23 @@ public class DatabaseConnection {
 	}
 
 	@SuppressWarnings("finally")
-	/*public String getRSS_POPISModel() {
-		String returnValue = new String();
-		ResultSet resultSet = null;
-		Statement statement = null;
-		try {
-			connect();
-
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM RSS_POPIS");
-
-			while (resultSet.next()) {
-				returnValue += "ID:" + resultSet.getInt("ID_RSS") + "\n";
-				returnValue += "RSS:" + resultSet.getString("RSS_FEED") + "\n";
-				returnValue += "OPIS:" + resultSet.getString("OPIS") + "\n";
-				try {
-					returnValue += "IZVOR:" + resultSet.getInt("FK_RSS_SOURCE")
-							+ "\n";
-				} catch (Exception e) {
-					returnValue += "IZVOR: NULL";
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				connection.close();
-				resultSet.close();
-				statement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return returnValue;
-		}
-	}
-*/
+	/*
+	 * public String getRSS_POPISModel() { String returnValue = new String();
+	 * ResultSet resultSet = null; Statement statement = null; try { connect();
+	 * 
+	 * statement = connection.createStatement(); resultSet =
+	 * statement.executeQuery("SELECT * FROM RSS_POPIS");
+	 * 
+	 * while (resultSet.next()) { returnValue += "ID:" +
+	 * resultSet.getInt("ID_RSS") + "\n"; returnValue += "RSS:" +
+	 * resultSet.getString("RSS_FEED") + "\n"; returnValue += "OPIS:" +
+	 * resultSet.getString("OPIS") + "\n"; try { returnValue += "IZVOR:" +
+	 * resultSet.getInt("FK_RSS_SOURCE") + "\n"; } catch (Exception e) {
+	 * returnValue += "IZVOR: NULL"; } } } catch (Exception e) {
+	 * e.printStackTrace(); } finally { try { connection.close();
+	 * resultSet.close(); statement.close(); } catch (SQLException e) {
+	 * e.printStackTrace(); } return returnValue; } }
+	 */
 	public boolean insertIntoRssPopis(RssPopisModel model) {
 		boolean result = false;
 		Statement statement = null;
@@ -137,12 +118,13 @@ public class DatabaseConnection {
 			connect();
 
 			statement = connection.createStatement();
-			result = statement
+			statement
 					.execute("INSERT INTO RSS_POPIS(RSS_FEED, OPIS, FK_RSS_SOURCE) VALUES('"
 							+ model.getRssFeed()
 							+ "', '"
 							+ model.getOpis()
 							+ "', " + model.getIdRssSource() + ");");
+			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -162,10 +144,10 @@ public class DatabaseConnection {
 		Statement statement = null;
 		try {
 			connect();
-
 			statement = connection.createStatement();
 			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID="
 					+ model.getId() + ";");
+			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -175,8 +157,9 @@ public class DatabaseConnection {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return result;
+
 		}
+		return result;
 	}
 
 	@SuppressWarnings("finally")
@@ -188,9 +171,9 @@ public class DatabaseConnection {
 
 			connect();
 			statement = connection.createStatement();
-			result = statement
-					.execute("INSERT INTO RSS_SOURCE(SOURCE_NAME) VALUES('"
-							+ model.getSourceName() + "');");
+			statement.execute("INSERT INTO RSS_SOURCE(SOURCE_NAME) VALUES('"
+					+ model.getSourceName() + "');");
+			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -200,8 +183,9 @@ public class DatabaseConnection {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return result;
+
 		}
+		return result;
 	}
 
 	@SuppressWarnings("finally")
@@ -210,8 +194,9 @@ public class DatabaseConnection {
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
-			result = statement.execute("DELETE FROM RSS_SOURCE WHERE ID="
+			statement.execute("DELETE FROM RSS_SOURCE WHERE ID="
 					+ model.getId() + ";");
+			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
