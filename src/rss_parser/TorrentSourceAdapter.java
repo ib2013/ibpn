@@ -133,6 +133,15 @@ public class TorrentAdapter implements SourceAdapter{
 			return new ArrayList<Message>();
 		}
 	}
+	
+	public void setUrl(String feedUrl) {
+		try {
+			this.url = new URL(feedUrl);
+		}
+		catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public boolean canIDoIt(int id) {
