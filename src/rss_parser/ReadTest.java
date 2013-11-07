@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReadTest {
 	  public static void main(String[] args) {
-		    TorrentAdapter parser = new TorrentAdapter("http://rss.thepiratebay.sx/205");
+		    TorrentSourceAdapter parser = new TorrentSourceAdapter("http://rss.thepiratebay.sx/205");
 		    Feed feed = parser.readFeed();
 		    
 		    // Ispisivanje informacija o feed-u
