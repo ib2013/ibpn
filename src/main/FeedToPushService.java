@@ -34,7 +34,6 @@ import dbmodels.RssPopisModel;
 public class FeedToPushService {
 	Timer t;
 	HashMap<ChannelModel, Date> lastFeedDates = new HashMap<ChannelModel, Date>();
-	static final long serialVersionUID = 10000;
 
 	public FeedToPushService() {
 		t = new Timer();
@@ -44,6 +43,7 @@ public class FeedToPushService {
 
 		t.schedule(new TimerAction(), Configuration.START_DELAY,
 				Configuration.REFRESH_INTERVAL);
+		
 	}
 
 	public void readRSSFeeds() {
@@ -54,12 +54,6 @@ public class FeedToPushService {
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
 		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
 		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
-		
-		System.out.println("<Channel list>");
-		for (ChannelModel x : channelList){
-			System.out.println(x.getName() + "   ---   " + x.getDescription());
-		}
-		System.out.println("</Channel list>");
 
 		for (ChannelModel channel : channelList) {
 			if (!lastFeedDates.containsKey(channel)) {
@@ -70,7 +64,6 @@ public class FeedToPushService {
 		}
 
 		updateUsersWithNotifications(feedList, channelList);
-
 	}
 
 	private ArrayList<Message> fetchFeedListFromSources(
@@ -82,7 +75,7 @@ public class FeedToPushService {
 
 		for (RssPopisModel rss : sourcesList) {
 			for (SourceAdapter adapter : adapters) {
-				if (adapter.canIDoIt(rss.getIdRssSource())) {
+				if (adapter.isValid(rss.getIdRssSource())) {
 					adapter.setUrl(rss.getRssFeed());
 					feedList.addAll(adapter.getMessages());
 				}
@@ -102,8 +95,7 @@ public class FeedToPushService {
 							y.getName());
 					pushN.notifyChannel(y.getName());
 
-					System.out
-							.println("--------------------------------------------------------------------");
+					System.out.println("=============");
 				}
 			}
 		}
