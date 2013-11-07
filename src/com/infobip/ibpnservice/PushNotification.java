@@ -54,6 +54,7 @@ public class PushNotification {
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
+			
 			System.out.println(this.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
