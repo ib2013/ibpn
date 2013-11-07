@@ -1,4 +1,5 @@
 package main;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,6 +7,10 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import org.apache.http.client.methods.HttpDelete;
 
@@ -84,9 +89,22 @@ public class ChannelHandler {
 
 		return channelList;
 	}
-
-	public void addChannel(ChannelModel channel) {
-
+	
+	public void addChannel(ChannelModel channel){
+		Gson gson = new Gson();
+		try {
+			StringEntity parms = new StringEntity(gson.toJson(channel));
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost(
+					"https://pushapi.infobip.com/1/application/" + Configuration.APPLICATION_ID + "/channel");
+			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
+			request.addHeader("content-type", "application/json");
+			request.setEntity(parms);
+			HttpResponse response = client.execute(request);
+			System.out.println(channel.getName() + " uspjesno dodan.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void deleteChannel(ChannelModel channel) {
