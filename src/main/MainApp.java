@@ -52,7 +52,7 @@ public class MainApp extends HttpServlet {
 		Date maxDate = lastFeedDate;
 
 		DatabaseConnection db = new DatabaseConnection();
-		ArrayList<RssPopisModel> sourcesList = db.getAllRssPopisModel();
+		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
 		ArrayList<Model> feedList = new ArrayList<Model>();
 		for (RssPopisModel rss : sourcesList) {
 			switch (rss.getIdRssSource()) {

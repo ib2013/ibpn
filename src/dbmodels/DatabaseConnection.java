@@ -25,7 +25,7 @@ public class DatabaseConnection {
 	public DatabaseConnection() {
 	}
 
-	public ArrayList<RssPopisModel> getAllRssPopisModel() {
+	public ArrayList<RssPopisModel> fetchAllRssPopisModels() {
 		ResultSet resultSet = null;
 		Statement statement = null;
 		try {
@@ -43,7 +43,7 @@ public class DatabaseConnection {
 						resultSet.getInt("FK_RSS_SOURCE"));
 				rezultat.add(rssPopis);
 			}
-
+			
 			return rezultat;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,7 +60,7 @@ public class DatabaseConnection {
 	}
 
 	@SuppressWarnings("finally")
-	public ArrayList<RssSourceModel> getAllRssSourceModel() {
+	public ArrayList<RssSourceModel> fetchAllRssSourceModels() {
 		ArrayList<RssSourceModel> rezultat = new ArrayList<RssSourceModel>();
 
 		ResultSet resultSet = null;
