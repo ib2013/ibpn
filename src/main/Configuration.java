@@ -9,5 +9,6 @@ public class Configuration {
 	public static final Date DEFAULT_DATE = new Date(92,2,6);
 	public static final long TPB_ID=1;
 	public static final long YT_ID=2;
+	public static final String AUTHORIZATION_INFO = "Basic cHVzaGRlbW86cHVzaGRlbW8=";
 
 }
