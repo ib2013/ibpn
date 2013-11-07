@@ -7,4 +7,6 @@ public interface SourceAdapter {
 	public abstract ArrayList<Message> getMessages();
 
 	public abstract boolean canIDoIt(int id);
+
+	public abstract void setUrl(String url);
 }
