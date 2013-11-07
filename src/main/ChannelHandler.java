@@ -20,7 +20,9 @@ public class ChannelHandler {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(
-					"https://pushapi.infobip.com/1/application/" + Configuration.APPLICATION_ID + "9cabf301d3db/channels");
+					"https://pushapi.infobip.com/1/application/"
+							+ Configuration.APPLICATION_ID
+							+ "/channels");
 			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
 			HttpResponse response = client.execute(request);
 
@@ -38,16 +40,18 @@ public class ChannelHandler {
 			JsonElement jsonTree = jsonParser.parse(responseText);
 			JsonArray jsonArray = jsonTree.getAsJsonArray();
 
-			/*for (int i = 0; i < jsonArray.size(); i++) {
+			for (int i = 0; i < jsonArray.size(); i++) {
 				JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
-				channelList.add(jsonElement.getAsJsonPrimitive("name")
-						.getAsString());
-			}*/
+				channelList.add(new ChannelModel(jsonElement
+						.getAsJsonPrimitive("name").getAsString(), jsonElement
+						.getAsJsonPrimitive("description").getAsString()));
+			}
+			return channelList;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		return null;
 	}
 
 	public void addChannel(ChannelModel channel) {

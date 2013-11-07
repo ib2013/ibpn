@@ -54,10 +54,12 @@ public class FeedToPushService {
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
 		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
 		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
-
-		for (Message x : feedList) {
-			System.out.println(x.toString());
+		
+		System.out.println("<Channel list>");
+		for (ChannelModel x : channelList){
+			System.out.println(x.getName() + "   ---   " + x.getDescription());
 		}
+		System.out.println("</Channel list>");
 
 		for (ChannelModel channel : channelList) {
 			if (!lastFeedDates.containsKey(channel)) {
