@@ -12,9 +12,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import org.apache.http.client.methods.HttpDelete;
 
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.gson.Gson;
 
+import org.apache.http.client.methods.HttpGet;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -27,7 +33,9 @@ public class ChannelHandler {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(
-					"https://pushapi.infobip.com/1/application/" + Configuration.APPLICATION_ID + "9cabf301d3db/channels");
+					"https://pushapi.infobip.com/1/application/"
+							+ Configuration.APPLICATION_ID + "/channels");
+
 			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
 			HttpResponse response = client.execute(request);
 
@@ -45,16 +53,19 @@ public class ChannelHandler {
 			JsonElement jsonTree = jsonParser.parse(responseText);
 			JsonArray jsonArray = jsonTree.getAsJsonArray();
 
-			/*for (int i = 0; i < jsonArray.size(); i++) {
+			for (int i = 0; i < jsonArray.size(); i++) {
 				JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
-				channelList.add(jsonElement.getAsJsonPrimitive("name")
-						.getAsString());
-			}*/
+				channelList.add(new ChannelModel(jsonElement
+						.getAsJsonPrimitive("name").getAsString(), jsonElement
+						.getAsJsonPrimitive("description").getAsString()));
+			}
+			return channelList;
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		return null;
 	}
 	
 	public void addChannel(ChannelModel channel){
@@ -77,6 +88,40 @@ public class ChannelHandler {
 
 	public void deleteChannel(ChannelModel channel) {
 
+		HttpClient client = new DefaultHttpClient();
+		HttpDelete request = new HttpDelete(
+				"https://pushapi.infobip.com/1/application/"
+						+ main.Configuration.APPLICATION_ID + "/channel/"
+						+ channel.getName());
+		request.addHeader("Authorization",
+				main.Configuration.AUTHORIZATION_INFO);
+		request.addHeader("applicationID", main.Configuration.APPLICATION_ID);
+		request.addHeader("channelName", channel.getName());
+
+		try {
+			HttpResponse response = client.execute(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateChannel(ChannelModel oldModel, ChannelModel newModel) {
+
+		Gson gson = new Gson();
+		try {
+			StringEntity parms = new StringEntity(gson.toJson(oldModel));
+
+			HttpClient client = new DefaultHttpClient();
+			HttpPut request = new HttpPut(
+					"https://pushapi.infobip.com/1/application/"
+							+ Configuration.APPLICATION_ID + "/channel/"
+							+ oldModel.getName());
+			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
+			request.setEntity(parms);
+			HttpResponse response = client.execute(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
