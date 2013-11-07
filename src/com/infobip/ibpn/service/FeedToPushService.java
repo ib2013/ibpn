@@ -34,7 +34,7 @@ public class FeedToPushService {
 		ChannelHandler channelHandler = new ChannelHandler();
 
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
-		ArrayList<MessageModel> feedList = fetchFeedListFromSources(sourcesList);
+		ArrayList<MessageModel> messagesList = fetchMessageModelListFromSources(sourcesList);
 		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
 
 		for (ChannelModel channel : channelList) {
@@ -45,13 +45,13 @@ public class FeedToPushService {
 			}
 		}
 
-		updateUsersWithNotifications(feedList, channelList);
+		updateUsersWithNotifications(messagesList, channelList);
 	}
 
-	private ArrayList<MessageModel> fetchFeedListFromSources(
+	private ArrayList<MessageModel> fetchMessageModelListFromSources(
 			ArrayList<RssPopisModel> sourcesList) {
 
-		ArrayList<MessageModel> feedList = new ArrayList<MessageModel>();
+		ArrayList<MessageModel> messagesList = new ArrayList<MessageModel>();
 		SourceAdapterContainer container = new SourceAdapterContainer();
 		ArrayList<SourceAdapter> adapters = container.getAdapters();
 
@@ -59,12 +59,12 @@ public class FeedToPushService {
 			for (SourceAdapter adapter : adapters) {
 				if (adapter.isValid(rss.getIdRssSource())) {
 					adapter.setUrl(rss.getRssFeed());
-					feedList.addAll(adapter.getMessages());
+					messagesList.addAll(adapter.getMessages());
 				}
 			}
 		}
 
-		return feedList;
+		return messagesList;
 	}
 
 	public void updateUsersWithNotifications(ArrayList<MessageModel> feedList,
