@@ -26,7 +26,7 @@ public class PushNotification {
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
 	public PushNotification(MessageModel x, String channelName) {
-		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
+		if (channelName.toUpperCase().equals(Configuration.DEFAULT_CHANNEL_NAME)) {
 			this.notificationMessage = x.getTitle();
 		} else {
 			this.notificationMessage = channelName;
@@ -44,15 +44,6 @@ public class PushNotification {
 			}
 		}
 		
-		/*switch (x.getId()) {
-		case 1:
-			androidData = new Data("TBP | Novi torrent!");
-			break;
-		case 2:
-			androidData = new Data("YT | Novi video!");
-			break;
-		}*/
-
 		channelNames.add(channelName);
 	}
 

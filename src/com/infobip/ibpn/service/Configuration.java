@@ -10,5 +10,6 @@ public class Configuration {
 	public static final long TPB_ID = 1;
 	public static final long YT_ID = 2;
 	public static final String AUTHORIZATION_INFO = "Basic cHVzaGRlbW86cHVzaGRlbW8=";
+	public static final String DEFAULT_CHANNEL_NAME = "All Feeds";
 
 }

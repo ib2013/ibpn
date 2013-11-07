@@ -94,7 +94,7 @@ public class FeedToPushService {
 		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)
 			return false;
 
-		if (channel.getName().toUpperCase().equals("ALL TORRENTS")) {
+		if (channel.getName().toUpperCase().equals(Configuration.DEFAULT_CHANNEL_NAME)) {
 			lastFeedDates.put(channel, torrent.getDate());
 			return true;
 		}
