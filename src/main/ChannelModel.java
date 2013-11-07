@@ -4,6 +4,12 @@ public class ChannelModel {
 	String name;
 	String description;
 	
+	public ChannelModel(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+	}
+	
 	public String getName() {
 		return name;
 	}

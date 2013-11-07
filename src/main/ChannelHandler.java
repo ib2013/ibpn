@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 
 public class ChannelHandler {
 	public ArrayList<ChannelModel> fetchChannelList() {
+		ArrayList<ChannelModel> channelList = new ArrayList<ChannelModel>();
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(
@@ -37,12 +38,11 @@ public class ChannelHandler {
 			JsonElement jsonTree = jsonParser.parse(responseText);
 			JsonArray jsonArray = jsonTree.getAsJsonArray();
 
-			ArrayList<String> channelList = new ArrayList<String>();
-			for (int i = 0; i < jsonArray.size(); i++) {
+			/*for (int i = 0; i < jsonArray.size(); i++) {
 				JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
 				channelList.add(jsonElement.getAsJsonPrimitive("name")
 						.getAsString());
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

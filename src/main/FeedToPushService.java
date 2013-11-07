@@ -50,7 +50,7 @@ public class FeedToPushService {
 
 		DatabaseConnection db = new DatabaseConnection();
 		ChannelHandler channelHandler = new ChannelHandler();
-		
+
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
 		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
 		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
@@ -59,41 +59,34 @@ public class FeedToPushService {
 			System.out.println(x.toString());
 		}
 
-		try {
-			// dohvatanje svih kanala u JSON formatu
-			
-
-			for (ChannelModel channel : channelList) {
-				if (!lastFeedDates.containsKey(channel)) {
-					Date date = new Date();
-					date.setTime(date.getTime() - 60 * 60 * 1000);
-					lastFeedDates.put(channel, date);
-				}
+		for (ChannelModel channel : channelList) {
+			if (!lastFeedDates.containsKey(channel)) {
+				Date date = new Date();
+				date.setTime(date.getTime() - 60 * 60 * 1000);
+				lastFeedDates.put(channel, date);
 			}
-
-			updateUsersWithNotifications(feedList, channelList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
+		updateUsersWithNotifications(feedList, channelList);
+
 	}
 
 	private ArrayList<Message> fetchFeedListFromSources(
 			ArrayList<RssPopisModel> sourcesList) {
-		
+
 		ArrayList<Message> feedList = new ArrayList<Message>();
 		SourceAdapterContainer container = new SourceAdapterContainer();
 		ArrayList<SourceAdapter> adapters = container.getAdapters();
-		
+
 		for (RssPopisModel rss : sourcesList) {
-			for (SourceAdapter adapter : adapters){
-				if (adapter.canIDoIt(rss.getIdRssSource())){
+			for (SourceAdapter adapter : adapters) {
+				if (adapter.canIDoIt(rss.getIdRssSource())) {
 					adapter.setUrl(rss.getRssFeed());
 					feedList.addAll(adapter.getMessages());
 				}
 			}
 		}
-		
+
 		return feedList;
 	}
 
@@ -102,10 +95,11 @@ public class FeedToPushService {
 		for (Message x : feedList) {
 			for (ChannelModel y : channelList) {
 				if (hasMatch(x, y)) {
-					
-					PushNotification pushN = new PushNotification(x, y.getName());
+
+					PushNotification pushN = new PushNotification(x,
+							y.getName());
 					pushN.notifyChannel(y.getName());
-					
+
 					System.out
 							.println("--------------------------------------------------------------------");
 				}
@@ -140,7 +134,6 @@ public class FeedToPushService {
 		lastFeedDates.put(channel, torrent.getDate());
 		return true;
 	}
-
 
 	class TimerAction extends TimerTask {
 		public void run() {
