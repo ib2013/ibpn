@@ -33,7 +33,7 @@ import dbmodels.RssPopisModel;
 
 public class FeedToPushService {
 	Timer t;
-	HashMap<String, Date> lastFeedDates = new HashMap<String, Date>();
+	HashMap<ChannelModel, Date> lastFeedDates = new HashMap<ChannelModel, Date>();
 	static final long serialVersionUID = 10000;
 
 	public FeedToPushService() {
@@ -49,85 +49,57 @@ public class FeedToPushService {
 	public void readRSSFeeds() {
 
 		DatabaseConnection db = new DatabaseConnection();
+		ChannelHandler channelHandler = new ChannelHandler();
+
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
 		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
+		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
 
 		for (Message x : feedList) {
 			System.out.println(x.toString());
 		}
 
-		try {
-			// dohvatanje svih kanala u JSON formatu
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(
-					"https://pushapi.infobip.com/1/application/9cabf301d3db/channels");
-			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
-			HttpResponse response = client.execute(request);
-
-			BufferedReader rd = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
-
-			String responseText = new String();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				responseText += line;
+		for (ChannelModel channel : channelList) {
+			if (!lastFeedDates.containsKey(channel)) {
+				Date date = new Date();
+				date.setTime(date.getTime() - 60 * 60 * 1000);
+				lastFeedDates.put(channel, date);
 			}
-
-			// parsiranje odgovora servera
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonTree = jsonParser.parse(responseText);
-			JsonArray jsonArray = jsonTree.getAsJsonArray();
-
-			ArrayList<String> channelList = new ArrayList<String>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
-				channelList.add(jsonElement.getAsJsonPrimitive("name")
-						.getAsString());
-			}
-
-			for (String channelName : channelList) {
-				if (!lastFeedDates.containsKey(channelName)) {
-					Date date = new Date();
-					date.setTime(date.getTime() - 60 * 60 * 1000);
-					lastFeedDates.put(channelName, date);
-				}
-			}
-
-			updateUsersWithNotifications(feedList, channelList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
+		updateUsersWithNotifications(feedList, channelList);
+
 	}
 
 	private ArrayList<Message> fetchFeedListFromSources(
 			ArrayList<RssPopisModel> sourcesList) {
-		
+
 		ArrayList<Message> feedList = new ArrayList<Message>();
 		SourceAdapterContainer container = new SourceAdapterContainer();
 		ArrayList<SourceAdapter> adapters = container.getAdapters();
-		
+
 		for (RssPopisModel rss : sourcesList) {
-			for (SourceAdapter adapter : adapters){
-				if (adapter.canIDoIt(rss.getIdRssSource())){
+			for (SourceAdapter adapter : adapters) {
+				if (adapter.canIDoIt(rss.getIdRssSource())) {
 					adapter.setUrl(rss.getRssFeed());
 					feedList.addAll(adapter.getMessages());
 				}
 			}
 		}
-		
+
 		return feedList;
 	}
 
 	public void updateUsersWithNotifications(ArrayList<Message> feedList,
-			ArrayList<String> channelList) {
+			ArrayList<ChannelModel> channelList) {
 		for (Message x : feedList) {
-			for (String y : channelList) {
+			for (ChannelModel y : channelList) {
 				if (hasMatch(x, y)) {
-					
-					PushNotification pushN = new PushNotification(x, y);
-					pushN.notifyChannel(y);
-					
+
+					PushNotification pushN = new PushNotification(x,
+							y.getName());
+					pushN.notifyChannel(y.getName());
+
 					System.out
 							.println("--------------------------------------------------------------------");
 				}
@@ -135,22 +107,22 @@ public class FeedToPushService {
 		}
 	}
 
-	public boolean hasMatch(Message torrent, String channelName) {
+	public boolean hasMatch(Message torrent, ChannelModel channel) {
 
-		Date lastTorrentFeedDate = lastFeedDates.get(channelName);
+		Date lastTorrentFeedDate = lastFeedDates.get(channel);
 		if (lastTorrentFeedDate == null) {
-			lastFeedDates.put(channelName, Configuration.DEFAULT_DATE);
+			lastFeedDates.put(channel, Configuration.DEFAULT_DATE);
 			lastTorrentFeedDate = Configuration.DEFAULT_DATE;
 		}
 
 		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)
 			return false;
 
-		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
-			lastFeedDates.put(channelName, torrent.getDate());
+		if (channel.getName().toUpperCase().equals("ALL TORRENTS")) {
+			lastFeedDates.put(channel, torrent.getDate());
 			return true;
 		}
-		String[] splitString = channelName.split(" ");
+		String[] splitString = channel.getName().split(" ");
 		for (int i = 0; i < splitString.length; i++) {
 			if (!torrent.getTitle().toLowerCase()
 					.contains(splitString[i].toLowerCase())) {
@@ -159,10 +131,9 @@ public class FeedToPushService {
 		}
 
 		System.out.println(torrent.toString());
-		lastFeedDates.put(channelName, torrent.getDate());
+		lastFeedDates.put(channel, torrent.getDate());
 		return true;
 	}
-
 
 	class TimerAction extends TimerTask {
 		public void run() {
