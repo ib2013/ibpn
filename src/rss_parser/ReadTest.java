@@ -11,12 +11,12 @@ public class ReadTest {
 		    System.out.println(feed.getInfo());
 		    
 		    // Ispisivanje poruka iz feed-a
-		    for (Model message : feed.getMessages()) {
+		    for (Message message : feed.getMessages()) {
 		      System.out.println(message);
 		    }
 		    
 		    // Ispisivanje poruka direktno iz TorrentAdapter-a
-		    for (Model message : parser.getMessages()) {
+		    for (Message message : parser.getMessages()) {
 			      System.out.println(message);
 			}
 		  }

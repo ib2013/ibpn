@@ -8,10 +8,10 @@ public class YTAdapterTester {
 	
 	public static void main(String[] args) {
 		YouTubeAdapter adapter = new YouTubeAdapter("http://gdata.youtube.com/feeds/api/standardfeeds/most_recent");
-		ArrayList<Model> feedList = new ArrayList<Model>();
+		ArrayList<Message> feedList = new ArrayList<Message>();
 		
 		feedList.addAll(adapter.getMessages());
-		for(Model x : feedList) {
+		for(Message x : feedList) {
 			System.out.println(x.toString());
 		}
 	}

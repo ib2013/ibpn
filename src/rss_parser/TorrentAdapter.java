@@ -85,7 +85,7 @@ public class TorrentAdapter {
 					}
 				} else if (event.isEndElement()) {
 					if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-						Model message = new Model();
+						Message message = new Message();
 						message.setDescription(description);
 						message.setLink(guid);
 						message.setTitle(title);
@@ -125,12 +125,12 @@ public class TorrentAdapter {
 		}
 	}
 
-	public ArrayList<Model> getMessages() {
+	public ArrayList<Message> getMessages() {
 		if (this.url != null) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
-			return new ArrayList<Model>();
+			return new ArrayList<Message>();
 		}
 	}
 

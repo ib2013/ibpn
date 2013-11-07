@@ -81,7 +81,7 @@ public class YouTubeAdapter {
 		        } else if (event.isEndElement()) {
 		          if (event.asEndElement().getName().getLocalPart() == "entry") {
 		        	
-		            Model message = new Model();
+		            Message message = new Message();
 		            message.setDescription("YouTube video");
 		            message.setLink(link);
 		            message.setTitle(title);
@@ -133,12 +133,12 @@ public class YouTubeAdapter {
 		    }
 	  }
 	  
-	  public ArrayList<Model> getMessages() {
+	  public ArrayList<Message> getMessages() {
 		  if(this.url!=null){
 		   feed = this.readFeed();
 		   return feed.getMessages();
 		  }else{
-			  return new ArrayList<Model>();
+			  return new ArrayList<Message>();
 		  }
 	  }
 	  

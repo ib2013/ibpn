@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import rss_parser.Model;
+import rss_parser.Message;
 
 public class DatabaseConnection {
 	Connection connection;

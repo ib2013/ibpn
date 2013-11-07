@@ -2,7 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
-import rss_parser.Model;
+import rss_parser.Message;
 
 public class PushNotification {
 
@@ -16,7 +16,7 @@ public class PushNotification {
 	ArrayList<String> channelNames = new ArrayList<String>();
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
-	public PushNotification(Model x, String channelName) {
+	public PushNotification(Message x, String channelName) {
 		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
 			this.notificationMessage = x.getTitle();
 		} else {
