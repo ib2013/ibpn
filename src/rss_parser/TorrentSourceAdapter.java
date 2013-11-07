@@ -14,7 +14,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-public class TorrentAdapter implements SourceAdapter{
+public class TorrentSourceAdapter implements SourceAdapter{
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
 	static final String LINK = "link";
@@ -26,11 +26,11 @@ public class TorrentAdapter implements SourceAdapter{
 
 	URL url = null;
 	
-	public TorrentAdapter() {
+	public TorrentSourceAdapter() {
 		
 	}
 
-	public TorrentAdapter(String feedUrl) {
+	public TorrentSourceAdapter(String feedUrl) {
 		try {
 			this.url = new URL(feedUrl);
 		} catch (MalformedURLException e) {
@@ -131,6 +131,15 @@ public class TorrentAdapter implements SourceAdapter{
 			return feed.getMessages();
 		} else {
 			return new ArrayList<Message>();
+		}
+	}
+	
+	public void setUrl(String feedUrl) {
+		try {
+			this.url = new URL(feedUrl);
+		}
+		catch(MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 

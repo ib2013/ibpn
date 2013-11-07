@@ -18,7 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import rss_parser.Message;
-import rss_parser.TorrentAdapter;
+import rss_parser.TorrentSourceAdapter;
 import rss_parser.YouTubeSourceAdapter;
 
 import com.google.gson.Gson;
@@ -54,7 +54,7 @@ public class FeedToPushService {
 			switch (rss.getIdRssSource()) {
 			case 1: // The Pirate Bay
 
-				TorrentAdapter torrentAdapter = new TorrentAdapter(
+				TorrentSourceAdapter torrentAdapter = new TorrentSourceAdapter(
 						rss.getRssFeed());
 
 				feedList.addAll(torrentAdapter.getMessages());
