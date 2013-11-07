@@ -74,7 +74,7 @@ public class FeedToPushService {
 
 		for (RssPopisModel rss : sourcesList) {
 			for (SourceAdapter adapter : adapters) {
-				if (adapter.canIDoIt(rss.getIdRssSource())) {
+				if (adapter.isValid(rss.getIdRssSource())) {
 					adapter.setUrl(rss.getRssFeed());
 					feedList.addAll(adapter.getMessages());
 				}
