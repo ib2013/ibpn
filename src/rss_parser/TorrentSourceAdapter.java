@@ -38,7 +38,7 @@ public class TorrentSourceAdapter implements SourceAdapter{
 		}
 	}
 
-	public Feed readFeed() {
+	private Feed readFeed() {
 		try {
 			boolean isFeedHeader = true;
 			// Set header values intial to the empty string
