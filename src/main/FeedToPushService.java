@@ -121,7 +121,10 @@ public class FeedToPushService {
 		for (Message x : feedList) {
 			for (String y : channelList) {
 				if (hasMatch(x, y)) {
-					notifyChannel(new PushNotification(x, y), y);
+					
+					PushNotification pushN = new PushNotification(x, y);
+					pushN.notifyChannel(y);
+					
 					System.out
 							.println("--------------------------------------------------------------------");
 				}
@@ -157,23 +160,6 @@ public class FeedToPushService {
 		return true;
 	}
 
-	public void notifyChannel(PushNotification notif, String channelName) {
-
-		Gson gson = new Gson();
-		try {
-			StringEntity parms = new StringEntity(gson.toJson(notif));
-			HttpClient client = new DefaultHttpClient();
-			HttpPost request = new HttpPost(
-					"https://pushapi.infobip.com/3/application/9cabf301d3db/message");
-			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
-			request.addHeader("content-type", "application/json");
-			request.setEntity(parms);
-			HttpResponse response = client.execute(request);
-			System.out.println(notif.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	class TimerAction extends TimerTask {
 		public void run() {

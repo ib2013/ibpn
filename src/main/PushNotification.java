@@ -2,6 +2,14 @@ package main;
 
 import java.util.ArrayList;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.google.gson.Gson;
+
 import rss_parser.Message;
 
 public class PushNotification {
@@ -34,6 +42,23 @@ public class PushNotification {
 		}
 		
 		channelNames.add(channelName);
+	}
+	
+	public void notifyChannel(String channelName){
+		Gson gson = new Gson();
+		try {
+			StringEntity parms = new StringEntity(gson.toJson(this));
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost(
+					"https://pushapi.infobip.com/3/application/9cabf301d3db/message");
+			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
+			request.addHeader("content-type", "application/json");
+			request.setEntity(parms);
+			HttpResponse response = client.execute(request);
+			System.out.println(this.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
