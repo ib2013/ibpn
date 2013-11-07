@@ -24,7 +24,7 @@ import com.google.gson.JsonParser;
 
 public class ChannelHandler {
 	public ArrayList<ChannelModel> fetchChannelList() {
-		ArrayList<ChannelModel> channelList = new ArrayList<ChannelModel>();
+		ArrayList<ChannelModel> channelList;
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(
@@ -43,17 +43,8 @@ public class ChannelHandler {
 				responseText += line;
 			}
 
-			// parsiranje odgovora servera
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonTree = jsonParser.parse(responseText);
-			JsonArray jsonArray = jsonTree.getAsJsonArray();
+			channelList = parseJson(responseText);
 
-			for (int i = 0; i < jsonArray.size(); i++) {
-				JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
-				channelList.add(new ChannelModel(jsonElement
-						.getAsJsonPrimitive("name").getAsString(), jsonElement
-						.getAsJsonPrimitive("description").getAsString()));
-			}
 			return channelList;
 
 		} catch (Exception e) {
@@ -61,6 +52,37 @@ public class ChannelHandler {
 			return null;
 		}
 
+	}
+
+	public ArrayList<ChannelModel> parseJson(String jsonResponse) {
+		ArrayList<ChannelModel> channelList = new ArrayList<ChannelModel>();
+
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonTree = jsonParser.parse(jsonResponse);
+		JsonArray jsonArray = jsonTree.getAsJsonArray();
+
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonObject jsonElement = jsonArray.get(i).getAsJsonObject();
+			String channelName;
+			String channelDescription;
+
+			try {
+				channelName = jsonElement.getAsJsonPrimitive("name")
+						.getAsString();
+			} catch (Exception e) {
+				channelName = "";
+			}
+			try {
+				channelDescription = jsonElement.getAsJsonPrimitive(
+						"description").getAsString();
+			} catch (Exception e) {
+				channelDescription = "";
+			}
+
+			channelList.add(new ChannelModel(channelName, channelDescription));
+		}
+
+		return channelList;
 	}
 
 	public void addChannel(ChannelModel channel) {
