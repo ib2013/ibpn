@@ -8,6 +8,7 @@ public class MainAppTest {
 		// TODO Auto-generated method stub
 		FeedToPushService app = new FeedToPushService();
 		app.start();
+	
 	}
 	
 }

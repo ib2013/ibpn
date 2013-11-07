@@ -69,17 +69,19 @@ public class ChannelHandler {
 
 	public void deleteChannel(ChannelModel channel) {
 
-		HttpClient client = new DefaultHttpClient();
-		HttpDelete request = new HttpDelete(
-				"https://pushapi.infobip.com/1/application/"
-						+ main.Configuration.APPLICATION_ID + "/channel/"
-						+ channel.getName());
-		request.addHeader("Authorization",
-				main.Configuration.AUTHORIZATION_INFO);
-		request.addHeader("applicationID", main.Configuration.APPLICATION_ID);
-		request.addHeader("channelName", channel.getName());
-
 		try {
+			HttpClient client = new DefaultHttpClient();
+			String channelName = channel.getName().replaceAll(" ", "%20");
+			HttpDelete request = new HttpDelete(
+					"https://pushapi.infobip.com/1/application/"
+							+ main.Configuration.APPLICATION_ID + "/channel/"
+							+ channelName);
+			request.addHeader("Authorization",
+					main.Configuration.AUTHORIZATION_INFO);
+			request.addHeader("applicationID",
+					main.Configuration.APPLICATION_ID);
+			request.addHeader("channelName", channel.getName());
+
 			HttpResponse response = client.execute(request);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +92,7 @@ public class ChannelHandler {
 
 		Gson gson = new Gson();
 		try {
-			StringEntity parms = new StringEntity(gson.toJson(oldModel));
+			StringEntity parms = new StringEntity(gson.toJson(newModel));
 
 			HttpClient client = new DefaultHttpClient();
 			HttpPut request = new HttpPut(
@@ -98,6 +100,8 @@ public class ChannelHandler {
 							+ Configuration.APPLICATION_ID + "/channel/"
 							+ oldModel.getName());
 			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
+			request.addHeader("content-type", "application/json");
+			request.addHeader("channelName", oldModel.getName());
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
 		} catch (Exception e) {
