@@ -32,13 +32,11 @@ import dbmodels.RssPopisModel;
 
 public class FeedToPushService {
 	Timer t;
-	Date lastFeedDate;
 	HashMap<String, Date> lastFeedDates = new HashMap<String, Date>();
 	static final long serialVersionUID = 10000;
 
 	public FeedToPushService() {
 		t = new Timer();
-		lastFeedDate = Configuration.DEFAULT_DATE;
 	}
 
 	public void start() {
@@ -48,7 +46,6 @@ public class FeedToPushService {
 	}
 
 	public void readRSSFeeds() {
-		Date maxDate = lastFeedDate;
 
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
@@ -117,7 +114,6 @@ public class FeedToPushService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		lastFeedDate = maxDate;
 	}
 
 	public void updateUsersWithNotifications(ArrayList<Model> feedList,
