@@ -18,7 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import rss_parser.Message;
-import rss_parser.TorrentAdapter;
+import rss_parser.TorrentSourceAdapter;
 import rss_parser.YouTubeSourceAdapter;
 
 import com.google.gson.Gson;
@@ -49,24 +49,7 @@ public class FeedToPushService {
 
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
-		ArrayList<Message> feedList = new ArrayList<Message>();
-		for (RssPopisModel rss : sourcesList) {
-			switch (rss.getIdRssSource()) {
-			case 1: // The Pirate Bay
-
-				TorrentAdapter torrentAdapter = new TorrentAdapter(
-						rss.getRssFeed());
-
-				feedList.addAll(torrentAdapter.getMessages());
-
-				break;
-			case 2: // YouTube
-
-				YouTubeSourceAdapter ytAdapter = new YouTubeSourceAdapter(rss.getRssFeed());
-				feedList.addAll(ytAdapter.getMessages());
-				break;
-			}
-		}
+		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
 
 		for (Message x : feedList) {
 			System.out.println(x.toString());
@@ -114,6 +97,32 @@ public class FeedToPushService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private ArrayList<Message> fetchFeedListFromSources(
+			ArrayList<RssPopisModel> sourcesList) {
+		
+		ArrayList<Message> feedList = new ArrayList<Message>();
+		
+		for (RssPopisModel rss : sourcesList) {
+			switch (rss.getIdRssSource()) {
+			case 1: // The Pirate Bay
+
+				TorrentSourceAdapter torrentAdapter = new TorrentSourceAdapter(
+						rss.getRssFeed());
+
+				feedList.addAll(torrentAdapter.getMessages());
+
+				break;
+			case 2: // YouTube
+
+				YouTubeSourceAdapter ytAdapter = new YouTubeSourceAdapter(rss.getRssFeed());
+				feedList.addAll(ytAdapter.getMessages());
+				break;
+			}
+		}
+		
+		return feedList;
 	}
 
 	public void updateUsersWithNotifications(ArrayList<Message> feedList,
