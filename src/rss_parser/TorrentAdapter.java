@@ -30,7 +30,7 @@ public class TorrentAdapter {
 		try {
 			this.url = new URL(feedUrl);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 
