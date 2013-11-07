@@ -16,8 +16,12 @@ import com.infobip.ibpn.models.RssPopisModel;
 public class FeedToPushService {
 	Timer t;
 	HashMap<ChannelModel, Date> lastFeedDates = new HashMap<ChannelModel, Date>();
+	DatabaseConnection db;
+	ChannelHandler channelHandler;
 
 	public FeedToPushService() {
+		db = new DatabaseConnection();
+		channelHandler = new ChannelHandler();
 		t = new Timer();
 	}
 
@@ -67,9 +71,10 @@ public class FeedToPushService {
 		return messagesList;
 	}
 
-	public void updateUsersWithNotifications(ArrayList<MessageModel> feedList,
+	public void updateUsersWithNotifications(
+			ArrayList<MessageModel> messagesList,
 			ArrayList<ChannelModel> channelList) {
-		for (MessageModel x : feedList) {
+		for (MessageModel x : messagesList) {
 			for (ChannelModel y : channelList) {
 				if (hasMatch(x, y)) {
 
@@ -94,7 +99,8 @@ public class FeedToPushService {
 		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)
 			return false;
 
-		if (channel.getName().toUpperCase().equals(Configuration.DEFAULT_CHANNEL_NAME.toUpperCase())) {
+		if (channel.getName().toUpperCase()
+				.equals(Configuration.DEFAULT_CHANNEL_NAME.toUpperCase())) {
 			lastFeedDates.put(channel, torrent.getDate());
 			return true;
 		}

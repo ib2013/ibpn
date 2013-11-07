@@ -20,7 +20,7 @@ import com.infobip.ibpn.models.MessageModel;
 public class YouTubeSourceAdapter implements SourceAdapter {
 
 	public String getAdapterdescription() {
-		return "YT | Novi video!";
+		return "YTB | Novi video!";
 	}
 
 	static final String TITLE = "title";
