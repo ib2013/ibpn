@@ -24,7 +24,15 @@ public class PushNotification {
 		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
-		androidData = new Data("TBP | Novi torrent!");
+		switch(x.getId()){
+		case 1:
+			androidData = new Data("TBP | Novi torrent!");
+			break;
+		case 2:
+			androidData = new Data("YT | Novi video!");
+			break;
+		}
+		
 		channelNames.add(channelName);
 	}
 

@@ -44,6 +44,8 @@ public class TorrentAdapter {
 			String pubdate = "";
 			String guid = "";
 
+			URL url = null;
+
 			// First create a new XMLInputFactory
 			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 			// Setup a new eventReader
