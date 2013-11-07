@@ -19,7 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import rss_parser.Message;
 import rss_parser.TorrentAdapter;
-import rss_parser.YouTubeAdapter;
+import rss_parser.YouTubeSourceAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -62,7 +62,7 @@ public class FeedToPushService {
 				break;
 			case 2: // YouTube
 
-				YouTubeAdapter ytAdapter = new YouTubeAdapter(rss.getRssFeed());
+				YouTubeSourceAdapter ytAdapter = new YouTubeSourceAdapter(rss.getRssFeed());
 				feedList.addAll(ytAdapter.getMessages());
 				break;
 			}
