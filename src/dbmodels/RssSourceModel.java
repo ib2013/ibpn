@@ -4,6 +4,14 @@ public class RssSourceModel {
 	private int id;
 	private String sourceName;
 
+	public RssSourceModel() {
+		
+	}
+	
+	public RssSourceModel(String sourceName) {
+		this.sourceName = sourceName;
+	}
+	
 	public RssSourceModel(int id, String sourceName) {
 		this.id = id;
 		this.sourceName = sourceName;

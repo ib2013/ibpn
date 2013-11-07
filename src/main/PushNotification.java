@@ -7,7 +7,7 @@ import rss_parser.Model;
 public class PushNotification {
 
 	final String messageID = "ibnmessage";
-	final String applicationID = Configuration.applicationID;
+	final String applicationID = Configuration.APPLICATION_ID;
 	String notificationMessage;
 	Data androidData;
 	String url;
@@ -24,7 +24,15 @@ public class PushNotification {
 		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
-		androidData = new Data("TBP | Novi torrent!");
+		switch(x.getId()){
+		case 1:
+			androidData = new Data("TBP | Novi torrent!");
+			break;
+		case 2:
+			androidData = new Data("YT | Novi video!");
+			break;
+		}
+		
 		channelNames.add(channelName);
 	}
 

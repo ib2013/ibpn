@@ -38,14 +38,14 @@ public class MainApp extends HttpServlet {
 
 	public MainApp() {
 		t = new Timer();
-		lastFeedDate = Configuration.defaultDate;
+		lastFeedDate = Configuration.DEFAULT_DATE;
 	}
 
 	@Override
 	public void init() {
 
-		t.schedule(new TimerAction(), Configuration.startDelay,
-				Configuration.refreshInterval);
+		t.schedule(new TimerAction(), Configuration.START_DELAY,
+				Configuration.REFRESH_INTERVAL);
 	}
 
 	public void readRSSFeeds() {
@@ -138,8 +138,8 @@ public class MainApp extends HttpServlet {
 
 		Date lastTorrentFeedDate = lastFeedDates.get(channelName);
 		if (lastTorrentFeedDate == null) {
-			lastFeedDates.put(channelName, Configuration.defaultDate);
-			lastTorrentFeedDate = Configuration.defaultDate;
+			lastFeedDates.put(channelName, Configuration.DEFAULT_DATE);
+			lastTorrentFeedDate = Configuration.DEFAULT_DATE;
 		}
 
 		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)

@@ -12,6 +12,9 @@ import rss_parser.Model;
 public class DatabaseConnection {
 	Connection connection;
 
+	public DatabaseConnection() {
+	}
+
 	public Connection getConnection() {
 		return connection;
 	}
@@ -22,8 +25,6 @@ public class DatabaseConnection {
 				"jdbc:h2:tcp://192.168.1.178/~/test", "sa", "");
 	}
 
-	public DatabaseConnection() {
-	}
 
 	public ArrayList<RssPopisModel> fetchAllRssPopisModels() {
 		ResultSet resultSet = null;
