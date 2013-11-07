@@ -1,4 +1,4 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.infobip.adapters.Message;
-import com.infobip.adapters.SourceAdapter;
-import com.infobip.db.DatabaseConnection;
-import com.infobip.db.RssPopisModel;
+import com.infobip.ibpn.adapters.SourceAdapter;
+import com.infobip.ibpn.adapters.SourceAdapterContainer;
+import com.infobip.ibpn.db.DatabaseConnection;
+import com.infobip.ibpn.models.ChannelModel;
+import com.infobip.ibpn.models.MessageModel;
+import com.infobip.ibpn.models.RssPopisModel;
 
 public class FeedToPushService {
 	Timer t;
@@ -32,7 +34,7 @@ public class FeedToPushService {
 		ChannelHandler channelHandler = new ChannelHandler();
 
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
-		ArrayList<Message> feedList = fetchFeedListFromSources(sourcesList);
+		ArrayList<MessageModel> feedList = fetchFeedListFromSources(sourcesList);
 		ArrayList<ChannelModel> channelList = channelHandler.fetchChannelList();
 
 		for (ChannelModel channel : channelList) {
@@ -46,10 +48,10 @@ public class FeedToPushService {
 		updateUsersWithNotifications(feedList, channelList);
 	}
 
-	private ArrayList<Message> fetchFeedListFromSources(
+	private ArrayList<MessageModel> fetchFeedListFromSources(
 			ArrayList<RssPopisModel> sourcesList) {
 
-		ArrayList<Message> feedList = new ArrayList<Message>();
+		ArrayList<MessageModel> feedList = new ArrayList<MessageModel>();
 		SourceAdapterContainer container = new SourceAdapterContainer();
 		ArrayList<SourceAdapter> adapters = container.getAdapters();
 
@@ -65,9 +67,9 @@ public class FeedToPushService {
 		return feedList;
 	}
 
-	public void updateUsersWithNotifications(ArrayList<Message> feedList,
+	public void updateUsersWithNotifications(ArrayList<MessageModel> feedList,
 			ArrayList<ChannelModel> channelList) {
-		for (Message x : feedList) {
+		for (MessageModel x : feedList) {
 			for (ChannelModel y : channelList) {
 				if (hasMatch(x, y)) {
 
@@ -81,7 +83,7 @@ public class FeedToPushService {
 		}
 	}
 
-	public boolean hasMatch(Message torrent, ChannelModel channel) {
+	public boolean hasMatch(MessageModel torrent, ChannelModel channel) {
 
 		Date lastTorrentFeedDate = lastFeedDates.get(channel);
 		if (lastTorrentFeedDate == null) {

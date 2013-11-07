@@ -1,28 +1,28 @@
-package com.infobip.adapters;
+package com.infobip.ibpn.models;
 
 import java.util.ArrayList;
 
-public class Feed {
+public class FeedModel {
 
 	final String title;
 	final String link;
 	final String description;
 	final String pubDate;
 
-	final ArrayList<Message> entries = new ArrayList<Message>();
+	final ArrayList<MessageModel> entries = new ArrayList<MessageModel>();
 
-	public Feed(String title, String link, String description, String pubDate) {
+	public FeedModel(String title, String link, String description, String pubDate) {
 		this.title = title;
 		this.link = link;
 		this.description = description;
 		this.pubDate = pubDate;
 	}
 
-	public ArrayList<Message> getMessages() {
+	public ArrayList<MessageModel> getMessages() {
 		return entries;
 	}
 
-	public void addMessage(Message model) {
+	public void addMessage(MessageModel model) {
 		entries.add(model);
 	}
 

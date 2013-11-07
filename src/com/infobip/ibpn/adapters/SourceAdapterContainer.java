@@ -1,8 +1,8 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.adapters;
 
 import java.util.ArrayList;
 
-import com.infobip.adapters.*;
+import com.infobip.ibpn.adapters.*;
 
 public class SourceAdapterContainer {
 	ArrayList<SourceAdapter> adapters;

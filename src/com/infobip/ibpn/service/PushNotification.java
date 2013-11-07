@@ -1,4 +1,4 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.service;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.Gson;
-import com.infobip.adapters.Message;
+import com.infobip.ibpn.adapters.SourceAdapter;
+import com.infobip.ibpn.adapters.SourceAdapterContainer;
+import com.infobip.ibpn.models.MessageModel;
 
 public class PushNotification {
 
@@ -23,7 +25,7 @@ public class PushNotification {
 	ArrayList<String> channelNames = new ArrayList<String>();
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
-	public PushNotification(Message x, String channelName) {
+	public PushNotification(MessageModel x, String channelName) {
 		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
 			this.notificationMessage = x.getTitle();
 		} else {
@@ -31,14 +33,25 @@ public class PushNotification {
 		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
-		switch (x.getId()) {
+		
+		SourceAdapterContainer adapterContainer = new SourceAdapterContainer();
+		ArrayList<SourceAdapter> adapters = adapterContainer.getAdapters();
+		
+		for (SourceAdapter adapter : adapters){
+			if (adapter.isValid(x.getId())){
+				androidData = new Data(adapter.getAdapterdescription());
+				break;
+			}
+		}
+		
+		/*switch (x.getId()) {
 		case 1:
 			androidData = new Data("TBP | Novi torrent!");
 			break;
 		case 2:
 			androidData = new Data("YT | Novi video!");
 			break;
-		}
+		}*/
 
 		channelNames.add(channelName);
 	}
