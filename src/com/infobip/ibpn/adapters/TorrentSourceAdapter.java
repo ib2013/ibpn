@@ -17,10 +17,9 @@ import com.infobip.ibpn.models.FeedModel;
 import com.infobip.ibpn.models.MessageModel;
 
 public class TorrentSourceAdapter implements SourceAdapter {
-	static final String adapterDescription = "TPB | Novi video!";
 
 	public String getAdapterdescription() {
-		return adapterDescription;
+		return "TPB | Novi torrent!";
 	}
 
 	static final String TITLE = "title";
