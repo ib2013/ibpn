@@ -44,6 +44,7 @@ public class FeedToPushService {
 
 		t.schedule(new TimerAction(), Configuration.START_DELAY,
 				Configuration.REFRESH_INTERVAL);
+		
 	}
 
 	public void readRSSFeeds() {

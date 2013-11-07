@@ -72,15 +72,20 @@ public class ChannelHandler {
 		
 		Gson gson = new Gson();
 		try {
-			StringEntity parms = new StringEntity(gson.toJson(oldModel));
-			
+			String formatSpace = oldModel.getName().replaceAll(" ", "%20");
+			StringEntity parms = new StringEntity(gson.toJson(newModel));
+			System.out.println(gson.toJson(oldModel));
+			System.out.println(gson.toJson(newModel));
 			HttpClient client = new DefaultHttpClient();
 			HttpPut request = new HttpPut("https://pushapi.infobip.com/1/application/"
 					+ Configuration.APPLICATION_ID
 					+ "/channel/"
-					+ oldModel.getName());
+					+ formatSpace);
 			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
+			request.addHeader("content-type", "application/json");
+			
 			request.setEntity(parms);
+			request.addHeader("channelName", oldModel.getName());
 			HttpResponse response = client.execute(request);
 		}
 		catch(Exception e) {
