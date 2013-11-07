@@ -1,31 +1,13 @@
 package com.infobip.ibpnservice;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.servlet.http.HttpServlet;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.infobip.adapters.Message;
 import com.infobip.adapters.SourceAdapter;
-import com.infobip.adapters.TorrentSourceAdapter;
-import com.infobip.adapters.YouTubeSourceAdapter;
 import com.infobip.db.DatabaseConnection;
 import com.infobip.db.RssPopisModel;
 
@@ -41,7 +23,7 @@ public class FeedToPushService {
 
 		t.schedule(new TimerAction(), Configuration.START_DELAY,
 				Configuration.REFRESH_INTERVAL);
-		
+
 	}
 
 	public void readRSSFeeds() {

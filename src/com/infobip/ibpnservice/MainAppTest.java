@@ -1,7 +1,5 @@
 package com.infobip.ibpnservice;
 
-import javax.swing.Timer;
-
 public class MainAppTest {
 
 	public static void main(String[] args) {

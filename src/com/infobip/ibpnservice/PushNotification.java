@@ -31,7 +31,7 @@ public class PushNotification {
 		}
 		this.url = x.getLink();
 		OSTypes.add("Android");
-		switch(x.getId()){
+		switch (x.getId()) {
 		case 1:
 			androidData = new Data("TBP | Novi torrent!");
 			break;
@@ -39,11 +39,11 @@ public class PushNotification {
 			androidData = new Data("YT | Novi video!");
 			break;
 		}
-		
+
 		channelNames.add(channelName);
 	}
-	
-	public void notifyChannel(String channelName){
+
+	public void notifyChannel(String channelName) {
 		Gson gson = new Gson();
 		try {
 			StringEntity parms = new StringEntity(gson.toJson(this));

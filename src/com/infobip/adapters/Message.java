@@ -11,11 +11,11 @@ public class Message {
 	Date date;
 
 	public Message() {
-		
+
 	}
-	
-	public Message(String title, String description, String link, String source,
-			String guid, int id) {
+
+	public Message(String title, String description, String link,
+			String source, String guid, int id) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
@@ -53,7 +53,7 @@ public class Message {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
@@ -67,7 +67,5 @@ public class Message {
 		return "Model [title=" + title + ", description=" + description
 				+ ", link=" + link + ", id=" + id + ", date=" + date + "]";
 	}
-
-	
 
 }

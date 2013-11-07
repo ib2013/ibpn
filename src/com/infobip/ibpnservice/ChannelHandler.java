@@ -11,17 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import org.apache.http.client.methods.HttpDelete;
 
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.google.gson.Gson;
-
-import org.apache.http.client.methods.HttpGet;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -103,7 +97,11 @@ public class ChannelHandler {
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
-			System.out.println(channel.getName() + " uspjesno dodan.");
+			if (response.getStatusLine().equals("200 OK")) {
+				System.out.println(channel.getName() + " uspjesno dodan.");
+			} else {
+				System.out.println("Doslo je do greske.");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,8 +114,8 @@ public class ChannelHandler {
 			String channelName = channel.getName().replaceAll(" ", "%20");
 			HttpDelete request = new HttpDelete(
 					"https://pushapi.infobip.com/1/application/"
-							+ com.infobip.ibpnservice.Configuration.APPLICATION_ID + "/channel/"
-							+ channelName);
+							+ com.infobip.ibpnservice.Configuration.APPLICATION_ID
+							+ "/channel/" + channelName);
 			request.addHeader("Authorization",
 					com.infobip.ibpnservice.Configuration.AUTHORIZATION_INFO);
 			request.addHeader("applicationID",

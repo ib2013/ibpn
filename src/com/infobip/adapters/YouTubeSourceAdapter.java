@@ -35,6 +35,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 			this.url = null;
 		}
 	}
+
 	public URL getUrl() {
 		return url;
 	}

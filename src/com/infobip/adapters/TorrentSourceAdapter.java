@@ -7,14 +7,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.security.auth.login.Configuration;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-public class TorrentSourceAdapter implements SourceAdapter{
+public class TorrentSourceAdapter implements SourceAdapter {
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
 	static final String LINK = "link";
@@ -25,9 +24,9 @@ public class TorrentSourceAdapter implements SourceAdapter{
 	static Feed feed = null;
 
 	URL url = null;
-	
+
 	public TorrentSourceAdapter() {
-		
+
 	}
 
 	public TorrentSourceAdapter(String feedUrl) {
@@ -73,8 +72,7 @@ public class TorrentSourceAdapter implements SourceAdapter{
 						title = getCharacterData(event, eventReader);
 						break;
 					case DESCRIPTION:
-						description = getCharacterData(event,
-								eventReader);
+						description = getCharacterData(event, eventReader);
 						break;
 					case LINK:
 						link = getCharacterData(event, eventReader);
@@ -133,19 +131,19 @@ public class TorrentSourceAdapter implements SourceAdapter{
 			return new ArrayList<Message>();
 		}
 	}
-	
+
 	public void setUrl(String feedUrl) {
 		try {
 			this.url = new URL(feedUrl);
-		}
-		catch(MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public boolean isValid(int id) {
-		if(id==com.infobip.ibpnservice.Configuration.TPB_ID) return true;
+		if (id == com.infobip.ibpnservice.Configuration.TPB_ID)
+			return true;
 		return false;
 	}
 
