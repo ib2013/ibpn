@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.infobip.ibpn.adapters.SourceAdapter;
+import com.infobip.ibpn.adapters.SourceAdapterContainer;
 import com.infobip.ibpn.db.DatabaseConnection;
 import com.infobip.ibpn.models.ChannelModel;
 import com.infobip.ibpn.models.MessageModel;

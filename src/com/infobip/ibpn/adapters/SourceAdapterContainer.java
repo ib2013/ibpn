@@ -1,4 +1,4 @@
-package com.infobip.ibpn.service;
+package com.infobip.ibpn.adapters;
 
 import java.util.ArrayList;
 
