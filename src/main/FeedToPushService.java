@@ -30,26 +30,22 @@ import com.google.gson.JsonParser;
 import dbmodels.DatabaseConnection;
 import dbmodels.RssPopisModel;
 
-public class MainApp extends HttpServlet {
+public class FeedToPushService {
 	Timer t;
-	Date lastFeedDate;
 	HashMap<String, Date> lastFeedDates = new HashMap<String, Date>();
 	static final long serialVersionUID = 10000;
 
-	public MainApp() {
+	public FeedToPushService() {
 		t = new Timer();
-		lastFeedDate = Configuration.DEFAULT_DATE;
 	}
 
-	@Override
-	public void init() {
+	public void start() {
 
 		t.schedule(new TimerAction(), Configuration.START_DELAY,
 				Configuration.REFRESH_INTERVAL);
 	}
 
 	public void readRSSFeeds() {
-		Date maxDate = lastFeedDate;
 
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
@@ -118,7 +114,6 @@ public class MainApp extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		lastFeedDate = maxDate;
 	}
 
 	public void updateUsersWithNotifications(ArrayList<Model> feedList,

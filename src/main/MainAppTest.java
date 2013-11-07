@@ -6,8 +6,8 @@ public class MainAppTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		MainApp app = new MainApp();
-		app.init();
+		FeedToPushService app = new FeedToPushService();
+		app.start();
 	}
 	
 }
