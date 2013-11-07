@@ -1,4 +1,4 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.service;
 
 import javax.servlet.http.HttpServlet;
 

@@ -1,4 +1,4 @@
-package com.infobip.adapters;
+package com.infobip.ibpn.adapters;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +13,9 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
+import com.infobip.ibpn.models.FeedModel;
+import com.infobip.ibpn.models.MessageModel;
+
 public class TorrentSourceAdapter implements SourceAdapter {
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
@@ -21,7 +24,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 	static final String PUB_DATE = "pubDate";
 	static final String GUID = "guid";
 
-	static Feed feed = null;
+	static FeedModel feed = null;
 
 	URL url = null;
 
@@ -37,7 +40,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 		}
 	}
 
-	private Feed readFeed() {
+	private FeedModel readFeed() {
 		try {
 			boolean isFeedHeader = true;
 			// Set header values intial to the empty string
@@ -64,7 +67,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 					case ITEM:
 						if (isFeedHeader) {
 							isFeedHeader = false;
-							feed = new Feed(title, link, description, pubdate);
+							feed = new FeedModel(title, link, description, pubdate);
 						}
 						event = eventReader.nextEvent();
 						break;
@@ -87,7 +90,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 					}
 				} else if (event.isEndElement()) {
 					if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-						Message message = new Message();
+						MessageModel message = new MessageModel();
 						message.setDescription(description);
 						message.setLink(guid);
 						message.setTitle(title);
@@ -123,12 +126,12 @@ public class TorrentSourceAdapter implements SourceAdapter {
 		}
 	}
 
-	public ArrayList<Message> getMessages() {
+	public ArrayList<MessageModel> getMessages() {
 		if (this.url != null) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
-			return new ArrayList<Message>();
+			return new ArrayList<MessageModel>();
 		}
 	}
 
@@ -142,7 +145,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 
 	@Override
 	public boolean isValid(int id) {
-		if (id == com.infobip.ibpnservice.Configuration.TPB_ID)
+		if (id == com.infobip.ibpn.service.Configuration.TPB_ID)
 			return true;
 		return false;
 	}

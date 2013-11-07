@@ -1,4 +1,4 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.service;
 
 import com.google.gson.Gson;
 
@@ -11,9 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-
 import org.apache.http.client.methods.HttpDelete;
-
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -21,6 +19,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.infobip.ibpn.models.ChannelModel;
 
 public class ChannelHandler {
 	public ArrayList<ChannelModel> fetchChannelList() {
@@ -114,12 +113,12 @@ public class ChannelHandler {
 			String channelName = channel.getName().replaceAll(" ", "%20");
 			HttpDelete request = new HttpDelete(
 					"https://pushapi.infobip.com/1/application/"
-							+ com.infobip.ibpnservice.Configuration.APPLICATION_ID
+							+ com.infobip.ibpn.service.Configuration.APPLICATION_ID
 							+ "/channel/" + channelName);
 			request.addHeader("Authorization",
-					com.infobip.ibpnservice.Configuration.AUTHORIZATION_INFO);
+					com.infobip.ibpn.service.Configuration.AUTHORIZATION_INFO);
 			request.addHeader("applicationID",
-					com.infobip.ibpnservice.Configuration.APPLICATION_ID);
+					com.infobip.ibpn.service.Configuration.APPLICATION_ID);
 			request.addHeader("channelName", channel.getName());
 
 			HttpResponse response = client.execute(request);

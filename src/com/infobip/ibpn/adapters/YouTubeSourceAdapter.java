@@ -1,4 +1,4 @@
-package com.infobip.adapters;
+package com.infobip.ibpn.adapters;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,13 +14,16 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
+import com.infobip.ibpn.models.FeedModel;
+import com.infobip.ibpn.models.MessageModel;
+
 public class YouTubeSourceAdapter implements SourceAdapter {
 	static final String TITLE = "title";
 	static final String ID = "id";
 	static final String LINK = "link";
 	static final String PUB_DATE = "updated";
 
-	static Feed feed = null;
+	static FeedModel feed = null;
 	URL url = null;
 
 	public YouTubeSourceAdapter() {
@@ -49,7 +52,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 		}
 	}
 
-	private Feed readFeed() {
+	private FeedModel readFeed() {
 		try {
 			boolean isFeedHeader = true;
 			// Set header values intial to the empty string
@@ -73,7 +76,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 					case "entry":
 						if (isFeedHeader) {
 							isFeedHeader = false;
-							feed = new Feed("YouTube", "www.youtube.com",
+							feed = new FeedModel("YouTube", "www.youtube.com",
 									"YouTube Description", published);
 						}
 						event = eventReader.nextEvent();
@@ -97,7 +100,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 				} else if (event.isEndElement()) {
 					if (event.asEndElement().getName().getLocalPart() == "entry") {
 
-						Message message = new Message();
+						MessageModel message = new MessageModel();
 						message.setDescription("YouTube video");
 						message.setLink(link);
 						message.setTitle(title);
@@ -143,18 +146,18 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 		}
 	}
 
-	public ArrayList<Message> getMessages() {
+	public ArrayList<MessageModel> getMessages() {
 		if (this.url != null) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
-			return new ArrayList<Message>();
+			return new ArrayList<MessageModel>();
 		}
 	}
 
 	@Override
 	public boolean isValid(int id) {
-		if (id == com.infobip.ibpnservice.Configuration.YT_ID)
+		if (id == com.infobip.ibpn.service.Configuration.YT_ID)
 			return true;
 		return false;
 	}

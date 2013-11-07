@@ -1,4 +1,4 @@
-package com.infobip.db;
+package com.infobip.ibpn.models;
 
 public class RssSourceModel {
 	private int id;

@@ -1,8 +1,8 @@
-package com.infobip.adapters;
+package com.infobip.ibpn.models;
 
 import java.util.Date;
 
-public class Message {
+public class MessageModel {
 
 	String title;
 	String description;
@@ -10,11 +10,11 @@ public class Message {
 	int id;
 	Date date;
 
-	public Message() {
+	public MessageModel() {
 
 	}
 
-	public Message(String title, String description, String link,
+	public MessageModel(String title, String description, String link,
 			String source, String guid, int id) {
 		this.title = title;
 		this.description = description;

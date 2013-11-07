@@ -1,4 +1,4 @@
-package com.infobip.ibpnservice;
+package com.infobip.ibpn.service;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.Gson;
-import com.infobip.adapters.Message;
+import com.infobip.ibpn.models.MessageModel;
 
 public class PushNotification {
 
@@ -23,7 +23,7 @@ public class PushNotification {
 	ArrayList<String> channelNames = new ArrayList<String>();
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
-	public PushNotification(Message x, String channelName) {
+	public PushNotification(MessageModel x, String channelName) {
 		if (channelName.toUpperCase().equals("ALL TORRENTS")) {
 			this.notificationMessage = x.getTitle();
 		} else {
