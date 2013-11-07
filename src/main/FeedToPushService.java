@@ -20,6 +20,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import rss_parser.Message;
 import rss_parser.TorrentSourceAdapter;
 import rss_parser.YouTubeSourceAdapter;
+import rss_parser.SourceAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -103,22 +104,15 @@ public class FeedToPushService {
 			ArrayList<RssPopisModel> sourcesList) {
 		
 		ArrayList<Message> feedList = new ArrayList<Message>();
+		SourceAdapterContainer container = new SourceAdapterContainer();
+		ArrayList<SourceAdapter> adapters = container.getAdapters();
 		
 		for (RssPopisModel rss : sourcesList) {
-			switch (rss.getIdRssSource()) {
-			case 1: // The Pirate Bay
-
-				TorrentSourceAdapter torrentAdapter = new TorrentSourceAdapter(
-						rss.getRssFeed());
-
-				feedList.addAll(torrentAdapter.getMessages());
-
-				break;
-			case 2: // YouTube
-
-				YouTubeSourceAdapter ytAdapter = new YouTubeSourceAdapter(rss.getRssFeed());
-				feedList.addAll(ytAdapter.getMessages());
-				break;
+			for (SourceAdapter adapter : adapters){
+				if (adapter.canIDoIt(rss.getIdRssSource())){
+					adapter.setUrl(rss.getRssFeed());
+					feedList.addAll(adapter.getMessages());
+				}
 			}
 		}
 		
