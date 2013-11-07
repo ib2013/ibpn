@@ -29,6 +29,7 @@ public class YouTubeAdapter {
 		  }
 		  catch(MalformedURLException e) {
 			  e.printStackTrace();
+			  this.url=null;
 		  }
 	  }
 	  
@@ -133,8 +134,12 @@ public class YouTubeAdapter {
 	  }
 	  
 	  public ArrayList<Model> getMessages() {
-		  feed = this.readFeed();
-		  return feed.getMessages();
+		  if(this.url!=null){
+		   feed = this.readFeed();
+		   return feed.getMessages();
+		  }else{
+			  return new ArrayList<Model>();
+		  }
 	  }
 	  
 }
