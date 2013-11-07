@@ -34,7 +34,6 @@ import dbmodels.RssPopisModel;
 public class FeedToPushService {
 	Timer t;
 	HashMap<ChannelModel, Date> lastFeedDates = new HashMap<ChannelModel, Date>();
-	static final long serialVersionUID = 10000;
 
 	public FeedToPushService() {
 		t = new Timer();
@@ -95,8 +94,7 @@ public class FeedToPushService {
 							y.getName());
 					pushN.notifyChannel(y.getName());
 
-					System.out
-							.println("--------------------------------------------------------------------");
+					System.out.println("=============");
 				}
 			}
 		}
