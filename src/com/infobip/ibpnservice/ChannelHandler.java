@@ -1,4 +1,4 @@
-package main;
+package com.infobip.ibpnservice;
 
 import com.google.gson.Gson;
 
@@ -116,12 +116,12 @@ public class ChannelHandler {
 			String channelName = channel.getName().replaceAll(" ", "%20");
 			HttpDelete request = new HttpDelete(
 					"https://pushapi.infobip.com/1/application/"
-							+ main.Configuration.APPLICATION_ID + "/channel/"
+							+ com.infobip.ibpnservice.Configuration.APPLICATION_ID + "/channel/"
 							+ channelName);
 			request.addHeader("Authorization",
-					main.Configuration.AUTHORIZATION_INFO);
+					com.infobip.ibpnservice.Configuration.AUTHORIZATION_INFO);
 			request.addHeader("applicationID",
-					main.Configuration.APPLICATION_ID);
+					com.infobip.ibpnservice.Configuration.APPLICATION_ID);
 			request.addHeader("channelName", channel.getName());
 
 			HttpResponse response = client.execute(request);

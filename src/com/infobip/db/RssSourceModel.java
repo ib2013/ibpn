@@ -1,4 +1,4 @@
-package dbmodels;
+package com.infobip.db;
 
 public class RssSourceModel {
 	private int id;

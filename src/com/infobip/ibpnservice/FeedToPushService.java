@@ -1,4 +1,4 @@
-package main;
+package com.infobip.ibpnservice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,19 +17,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import rss_parser.Message;
-import rss_parser.TorrentSourceAdapter;
-import rss_parser.YouTubeSourceAdapter;
-import rss_parser.SourceAdapter;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import dbmodels.DatabaseConnection;
-import dbmodels.RssPopisModel;
+import com.infobip.adapters.Message;
+import com.infobip.adapters.SourceAdapter;
+import com.infobip.adapters.TorrentSourceAdapter;
+import com.infobip.adapters.YouTubeSourceAdapter;
+import com.infobip.db.DatabaseConnection;
+import com.infobip.db.RssPopisModel;
 
 public class FeedToPushService {
 	Timer t;

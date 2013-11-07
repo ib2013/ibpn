@@ -1,4 +1,4 @@
-package rss_parser;
+package com.infobip.adapters;
 
 import java.util.ArrayList;
 

@@ -1,40 +1,50 @@
-package rss_parser;
+package com.infobip.adapters;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.security.auth.login.Configuration;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-public class TorrentSourceAdapter implements SourceAdapter{
+public class YouTubeSourceAdapter implements SourceAdapter {
 	static final String TITLE = "title";
-	static final String DESCRIPTION = "description";
+	static final String ID = "id";
 	static final String LINK = "link";
-	static final String ITEM = "item";
-	static final String PUB_DATE = "pubDate";
-	static final String GUID = "guid";
+	static final String PUB_DATE = "updated";
 
 	static Feed feed = null;
-
 	URL url = null;
-	
-	public TorrentSourceAdapter() {
-		
+
+	public YouTubeSourceAdapter() {
+
 	}
 
-	public TorrentSourceAdapter(String feedUrl) {
+	public YouTubeSourceAdapter(String feedUrl) {
 		try {
 			this.url = new URL(feedUrl);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			this.url = null;
+		}
+	}
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		try {
+			this.url = new URL(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			this.url = null;
 		}
 	}
 
@@ -42,13 +52,10 @@ public class TorrentSourceAdapter implements SourceAdapter{
 		try {
 			boolean isFeedHeader = true;
 			// Set header values intial to the empty string
-			String description = "";
 			String title = "";
 			String link = "";
-			String pubdate = "";
-			String guid = "";
-
-			URL url = null;
+			String published = "";
+			String id = "";
 
 			// First create a new XMLInputFactory
 			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -62,39 +69,49 @@ public class TorrentSourceAdapter implements SourceAdapter{
 					String localPart = event.asStartElement().getName()
 							.getLocalPart();
 					switch (localPart) {
-					case ITEM:
+					case "entry":
 						if (isFeedHeader) {
 							isFeedHeader = false;
-							feed = new Feed(title, link, description, pubdate);
+							feed = new Feed("YouTube", "www.youtube.com",
+									"YouTube Description", published);
 						}
 						event = eventReader.nextEvent();
 						break;
 					case TITLE:
 						title = getCharacterData(event, eventReader);
 						break;
-					case DESCRIPTION:
-						description = getCharacterData(event,
-								eventReader);
-						break;
-					case LINK:
-						link = getCharacterData(event, eventReader);
-						break;
-					case GUID:
-						guid = getCharacterData(event, eventReader);
+					case ID:
+						// <id>tag:youtube.com,2008:video:dMH0bHeiRNg</id>
+						String link1 = getCharacterData(event, eventReader);
+						if (link1.length() > 42) {
+							link = "http://www.youtube.com/watch?v="
+									+ link1.substring(42);
+						}
+
 						break;
 					case PUB_DATE:
-						pubdate = getCharacterData(event, eventReader);
+						published = getCharacterData(event, eventReader);
 						break;
-
 					}
 				} else if (event.isEndElement()) {
-					if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
+					if (event.asEndElement().getName().getLocalPart() == "entry") {
+
 						Message message = new Message();
-						message.setDescription(description);
-						message.setLink(guid);
+						message.setDescription("YouTube video");
+						message.setLink(link);
 						message.setTitle(title);
-						message.setDate(new Date(pubdate));
-						message.setId(1); // id za TPB
+						message.setId(2);
+						SimpleDateFormat formatter;
+						formatter = new SimpleDateFormat(
+								"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+						try {
+							Date date = formatter.parse(published.substring(0,
+									24));
+							message.setDate(date);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						feed.addMessage(message);
 						event = eventReader.nextEvent();
 						continue;
@@ -133,19 +150,11 @@ public class TorrentSourceAdapter implements SourceAdapter{
 			return new ArrayList<Message>();
 		}
 	}
-	
-	public void setUrl(String feedUrl) {
-		try {
-			this.url = new URL(feedUrl);
-		}
-		catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public boolean isValid(int id) {
-		if(id==main.Configuration.TPB_ID) return true;
+		if (id == com.infobip.ibpnservice.Configuration.YT_ID)
+			return true;
 		return false;
 	}
 

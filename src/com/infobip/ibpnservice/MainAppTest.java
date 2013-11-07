@@ -1,4 +1,4 @@
-package main;
+package com.infobip.ibpnservice;
 
 import javax.swing.Timer;
 

@@ -1,4 +1,4 @@
-package main;
+package com.infobip.ibpnservice;
 
 public class ChannelModel {
 	String name;

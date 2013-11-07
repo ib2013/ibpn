@@ -1,7 +1,7 @@
-package main;
+package com.infobip.ibpnservice;
 import java.util.ArrayList;
 
-import rss_parser.*;
+import com.infobip.adapters.*;
 
 public class SourceAdapterContainer {
 	ArrayList<SourceAdapter> adapters;

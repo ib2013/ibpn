@@ -1,4 +1,4 @@
-package main;
+package com.infobip.ibpnservice;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.Gson;
-
-import rss_parser.Message;
+import com.infobip.adapters.Message;
 
 public class PushNotification {
 
