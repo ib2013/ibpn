@@ -18,6 +18,12 @@ import com.infobip.ibpn.models.FeedModel;
 import com.infobip.ibpn.models.MessageModel;
 
 public class YouTubeSourceAdapter implements SourceAdapter {
+	static final String adapterDescription = "YT | Novi video!";
+	
+	public String getAdapterdescription() {
+		return adapterDescription;
+	}
+
 	static final String TITLE = "title";
 	static final String ID = "id";
 	static final String LINK = "link";

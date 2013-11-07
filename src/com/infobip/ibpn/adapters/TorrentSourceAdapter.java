@@ -17,6 +17,12 @@ import com.infobip.ibpn.models.FeedModel;
 import com.infobip.ibpn.models.MessageModel;
 
 public class TorrentSourceAdapter implements SourceAdapter {
+	static final String adapterDescription = "TPB | Novi video!";
+
+	public String getAdapterdescription() {
+		return adapterDescription;
+	}
+
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
 	static final String LINK = "link";
@@ -67,7 +73,8 @@ public class TorrentSourceAdapter implements SourceAdapter {
 					case ITEM:
 						if (isFeedHeader) {
 							isFeedHeader = false;
-							feed = new FeedModel(title, link, description, pubdate);
+							feed = new FeedModel(title, link, description,
+									pubdate);
 						}
 						event = eventReader.nextEvent();
 						break;

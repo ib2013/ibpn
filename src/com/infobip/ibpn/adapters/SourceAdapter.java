@@ -11,4 +11,6 @@ public interface SourceAdapter {
 	public abstract boolean isValid(int id);
 
 	public abstract void setUrl(String url);
+	
+	public abstract String getAdapterdescription();
 }
