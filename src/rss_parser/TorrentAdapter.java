@@ -89,7 +89,7 @@ public class TorrentAdapter implements SourceAdapter{
 					}
 				} else if (event.isEndElement()) {
 					if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-						Model message = new Model();
+						Message message = new Message();
 						message.setDescription(description);
 						message.setLink(guid);
 						message.setTitle(title);
@@ -125,19 +125,18 @@ public class TorrentAdapter implements SourceAdapter{
 		}
 	}
 
-	public ArrayList<Model> getMessages() {
+	public ArrayList<Message> getMessages() {
 		if (this.url != null) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
-			return new ArrayList<Model>();
+			return new ArrayList<Message>();
 		}
 	}
 
 	@Override
 	public boolean canIDoIt(int id) {
 		if(id==main.Configuration.TPB_ID) return true;
-		
 		return false;
 	}
 

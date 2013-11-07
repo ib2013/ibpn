@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface SourceAdapter {
 
-	public abstract ArrayList<Model> getMessages();
+	public abstract ArrayList<Message> getMessages();
 
 	public abstract boolean canIDoIt(int id);
 }

@@ -10,7 +10,7 @@ public class Feed {
 	  final String description;
 	  final String pubDate;
 
-	  final ArrayList<Model> entries = new ArrayList<Model>();
+	  final ArrayList<Message> entries = new ArrayList<Message>();
 
 	  public Feed(String title, String link, String description, String pubDate) {
 	    this.title = title;
@@ -19,11 +19,11 @@ public class Feed {
 	    this.pubDate = pubDate;
 	  }
 
-	  public ArrayList<Model> getMessages() {
+	  public ArrayList<Message> getMessages() {
 		return entries;
 	  }
 	  
-	  public void addMessage(Model model) {
+	  public void addMessage(Message model) {
 		  entries.add(model);
 	  }
 

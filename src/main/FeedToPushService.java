@@ -17,7 +17,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import rss_parser.Model;
+import rss_parser.Message;
 import rss_parser.TorrentAdapter;
 import rss_parser.YouTubeSourceAdapter;
 
@@ -49,7 +49,7 @@ public class FeedToPushService {
 
 		DatabaseConnection db = new DatabaseConnection();
 		ArrayList<RssPopisModel> sourcesList = db.fetchAllRssPopisModels();
-		ArrayList<Model> feedList = new ArrayList<Model>();
+		ArrayList<Message> feedList = new ArrayList<Message>();
 		for (RssPopisModel rss : sourcesList) {
 			switch (rss.getIdRssSource()) {
 			case 1: // The Pirate Bay
@@ -68,7 +68,7 @@ public class FeedToPushService {
 			}
 		}
 
-		for (Model x : feedList) {
+		for (Message x : feedList) {
 			System.out.println(x.toString());
 		}
 
@@ -116,9 +116,9 @@ public class FeedToPushService {
 		}
 	}
 
-	public void updateUsersWithNotifications(ArrayList<Model> feedList,
+	public void updateUsersWithNotifications(ArrayList<Message> feedList,
 			ArrayList<String> channelList) {
-		for (Model x : feedList) {
+		for (Message x : feedList) {
 			for (String y : channelList) {
 				if (hasMatch(x, y)) {
 					notifyChannel(new PushNotification(x, y), y);
@@ -129,7 +129,7 @@ public class FeedToPushService {
 		}
 	}
 
-	public boolean hasMatch(Model torrent, String channelName) {
+	public boolean hasMatch(Message torrent, String channelName) {
 
 		Date lastTorrentFeedDate = lastFeedDates.get(channelName);
 		if (lastTorrentFeedDate == null) {

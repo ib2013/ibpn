@@ -2,7 +2,7 @@ package rss_parser;
 
 import java.util.Date;
 
-public class Model {
+public class Message {
 
 	String title;
 	String description;
@@ -10,11 +10,11 @@ public class Model {
 	int id;
 	Date date;
 
-	public Model() {
+	public Message() {
 		
 	}
 	
-	public Model(String title, String description, String link, String source,
+	public Message(String title, String description, String link, String source,
 			String guid, int id) {
 		this.title = title;
 		this.description = description;
