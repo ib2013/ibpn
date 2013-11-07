@@ -12,6 +12,9 @@ import rss_parser.Model;
 public class DatabaseConnection {
 	Connection connection;
 
+	public DatabaseConnection() {
+	}
+
 	public Connection getConnection() {
 		return connection;
 	}
@@ -20,9 +23,6 @@ public class DatabaseConnection {
 		Class.forName("org.h2.Driver");
 		connection = DriverManager.getConnection(
 				"jdbc:h2:tcp://192.168.1.178/~/test", "sa", "");
-	}
-
-	public DatabaseConnection() {
 	}
 
 	public ArrayList<RssPopisModel> getAllRssPopisModel() {

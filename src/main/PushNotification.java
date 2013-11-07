@@ -7,7 +7,7 @@ import rss_parser.Model;
 public class PushNotification {
 
 	final String messageID = "ibnmessage";
-	final String applicationID = Configuration.applicationID;
+	final String applicationID = Configuration.APPLICATION_ID;
 	String notificationMessage;
 	Data androidData;
 	String url;
