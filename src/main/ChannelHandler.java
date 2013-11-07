@@ -63,7 +63,7 @@ public class ChannelHandler {
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(
 				"https://pushapi.infobip.com/1/application/"
-						+ main.Configuration.AUTHORIZATION_INFO + "/channels");
+						+ main.Configuration.APPLICATION_ID + "/channel/"+channel.getName());
 		request.addHeader("Authorization",
 				main.Configuration.AUTHORIZATION_INFO);
 		request.addHeader("applicationID", main.Configuration.APPLICATION_ID);
