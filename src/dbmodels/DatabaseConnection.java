@@ -95,7 +95,7 @@ public class DatabaseConnection {
 	}
 
 	@SuppressWarnings("finally")
-	public String getRSS_POPISModel() {
+	/*public String getRSS_POPISModel() {
 		String returnValue = new String();
 		ResultSet resultSet = null;
 		Statement statement = null;
@@ -129,7 +129,7 @@ public class DatabaseConnection {
 			return returnValue;
 		}
 	}
-
+*/
 	public boolean insertIntoRssPopis(RssPopisModel model) {
 		boolean result = false;
 		Statement statement = null;
