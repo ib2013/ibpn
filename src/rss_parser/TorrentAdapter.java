@@ -25,13 +25,13 @@ public class TorrentAdapter {
 	  
 	  static Feed feed = null;
 
-	  final URL url;
+	  URL url = null;
 
 	  public TorrentAdapter(String feedUrl) {
 	    try {
 	      this.url = new URL(feedUrl);
 	    } catch (MalformedURLException e) {
-	      throw new RuntimeException(e);
+	      e.printStackTrace();
 	    }
 	  }
 
