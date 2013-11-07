@@ -97,7 +97,7 @@ public class ChannelHandler {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost(
 					"https://pushapi.infobip.com/1/application/" + Configuration.APPLICATION_ID + "/channel");
-			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
+			request.addHeader("Authorization", Configuration.AUTHORIZATION_INFO);
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
