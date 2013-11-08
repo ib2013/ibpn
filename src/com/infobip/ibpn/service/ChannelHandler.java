@@ -86,7 +86,7 @@ public class ChannelHandler {
 		return channelList;
 	}
 
-	public void addChannel(ChannelModel channel) {
+	public boolean addChannel(ChannelModel channel) {
 		Gson gson = new Gson();
 		try {
 			StringEntity parms = new StringEntity(gson.toJson(channel));
@@ -98,17 +98,19 @@ public class ChannelHandler {
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
 			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().equals("200 OK")) {
-				System.out.println(channel.getName() + " uspjesno dodan.");
+			if (response.getStatusLine().toString()
+					.contains("HTTP/1.1 201 Created")) {
+				return true;
 			} else {
-				System.out.println("Doslo je do greske.");
+				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
-	public void deleteChannel(ChannelModel channel) {
+	public boolean deleteChannel(ChannelModel channel) {
 
 		try {
 			HttpClient client = new DefaultHttpClient();
@@ -124,20 +126,20 @@ public class ChannelHandler {
 			request.addHeader("channelName", channel.getName());
 
 			HttpResponse response = client.execute(request);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
-	public void updateChannel(ChannelModel oldModel, ChannelModel newModel) {
+	public boolean updateChannel(ChannelModel oldModel, ChannelModel newModel) {
 
 		Gson gson = new Gson();
 		try {
 
 			String formatSpace = oldModel.getName().replaceAll(" ", "%20");
 			StringEntity parms = new StringEntity(gson.toJson(newModel));
-			System.out.println(gson.toJson(oldModel));
-			System.out.println(gson.toJson(newModel));
 
 			HttpClient client = new DefaultHttpClient();
 			HttpPut request = new HttpPut(
@@ -151,8 +153,16 @@ public class ChannelHandler {
 			request.setEntity(parms);
 			request.addHeader("channelName", oldModel.getName());
 			HttpResponse response = client.execute(request);
+
+			if (response.getStatusLine().toString().contains("HTTP/1.1 200 OK")) {
+				return true;
+			} else {
+				return false;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
