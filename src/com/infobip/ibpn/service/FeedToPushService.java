@@ -54,10 +54,12 @@ public class FeedToPushService {
 		}
 
 		updateUsersWithNotifications(messagesList, channelList);
-		
-		/*for (ChannelModel channel : channelList){
-			System.out.println(channel.getName() + ": " + channelNotificationCounter.get(channel));
-		}*/
+
+		/*
+		 * for (ChannelModel channel : channelList){
+		 * System.out.println(channel.getName() + ": " +
+		 * channelNotificationCounter.get(channel)); }
+		 */
 	}
 
 	private ArrayList<MessageModel> fetchMessageModelListFromSources(
@@ -141,9 +143,15 @@ public class FeedToPushService {
 		return channelNotificationCounter;
 	}
 
+	public void deleteChannelFromMap(ChannelModel channel) {
+		channelNotificationCounter.remove(channel);
+		lastFeedDates.remove(channel);
+	}
+
 	class TimerAction extends TimerTask {
 		public void run() {
 			readRSSFeeds();
 		}
 	}
+
 }

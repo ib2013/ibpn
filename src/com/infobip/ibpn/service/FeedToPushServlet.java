@@ -29,13 +29,30 @@ public class FeedToPushServlet extends HttpServlet {
 
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("UTF-8");
-		
-		HashMap<ChannelModel, Integer> channelMap = service.fetchChannelListCounter();
-		
+
+		HashMap<ChannelModel, Integer> channelMap = service
+				.fetchChannelListCounter();
+
 		JsonArray Jarray = jsonHandler.ChannelMapCounterToJson(channelMap);
 
 		response.getWriter().write(Jarray.toString());
 
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		ChannelModel channel = new ChannelModel(request.getParameter(
+				"channel_name").toString(), null);
+
+		ChannelHandler channelHandler = new ChannelHandler();
+		channelHandler.deleteChannel(channel);
+		service.deleteChannelFromMap(channel);
+
+		PushNotification pushNotification = new PushNotification();
+		pushNotification.broadcastDeletedChannel(channel.getName());
+		
+		response.getWriter().write("success");
 	}
 
 }
