@@ -87,8 +87,6 @@ public class JsonHandler {
 
 		JsonArray jsonArray = new JsonArray();
 
-		Iterator i = (Iterator) (channelMap.keySet().iterator());
-
 		for (Map.Entry<ChannelModel, Integer> entry : channelMap.entrySet()) {
 			JsonObject jsonObject = new JsonObject();
 
