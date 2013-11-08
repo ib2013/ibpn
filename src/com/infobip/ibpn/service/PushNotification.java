@@ -17,11 +17,11 @@ public class PushNotification {
 
 	final String messageID = "ibnmessage";
 	final String applicationID = Configuration.APPLICATION_ID;
-	String notificationMessage = "";
+	String notificationMessage = "-";
 	Data androidData;
 	String url = null;
 	String sentType = "channels";
-	final String mimeType = "text/html";
+	String mimeType = "text/html";
 	ArrayList<String> channelNames = new ArrayList<String>();
 	ArrayList<String> OSTypes = new ArrayList<String>();
 
@@ -74,6 +74,7 @@ public class PushNotification {
 		this.androidData = new Data("SYSTEM_" + channelName, true);
 		sentType = "application";
 		OSTypes.add("Android");
+		mimeType = "text/plain";
 
 		Gson gson = new Gson();
 		try {
@@ -84,9 +85,10 @@ public class PushNotification {
 			request.addHeader("Authorization", "Basic cHVzaGRlbW86cHVzaGRlbW8=");
 			request.addHeader("content-type", "application/json");
 			request.setEntity(parms);
+			
 			HttpResponse response = client.execute(request);
+			System.out.println("RES: " + response.toString());
 
-			System.out.println(this.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
