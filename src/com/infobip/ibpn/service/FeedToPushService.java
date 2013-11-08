@@ -16,6 +16,7 @@ import com.infobip.ibpn.models.RssPopisModel;
 public class FeedToPushService {
 	Timer t;
 	HashMap<ChannelModel, Date> lastFeedDates = new HashMap<ChannelModel, Date>();
+	HashMap<ChannelModel, Integer> channelNotificationCounter = new HashMap<ChannelModel, Integer>();
 	DatabaseConnection db;
 	ChannelHandler channelHandler;
 
@@ -47,9 +48,16 @@ public class FeedToPushService {
 				date.setTime(date.getTime() - 60 * 60 * 1000);
 				lastFeedDates.put(channel, date);
 			}
+			if (!channelNotificationCounter.containsKey(channel)) {
+				channelNotificationCounter.put(channel, 0);
+			}
 		}
 
 		updateUsersWithNotifications(messagesList, channelList);
+		
+		for (ChannelModel channel : channelList){
+			System.out.println(channel.getName() + ": " + channelNotificationCounter.get(channel));
+		}
 	}
 
 	private ArrayList<MessageModel> fetchMessageModelListFromSources(
@@ -91,9 +99,14 @@ public class FeedToPushService {
 	public boolean hasMatch(MessageModel torrent, ChannelModel channel) {
 
 		Date lastTorrentFeedDate = lastFeedDates.get(channel);
+		Integer oldCounter = channelNotificationCounter.get(channel);
 		if (lastTorrentFeedDate == null) {
 			lastFeedDates.put(channel, Configuration.DEFAULT_DATE);
 			lastTorrentFeedDate = Configuration.DEFAULT_DATE;
+		}
+		if (oldCounter == null) {
+			channelNotificationCounter.put(channel, 0);
+			oldCounter = 0;
 		}
 
 		if (torrent.getDate().compareTo(lastTorrentFeedDate) <= 0)
@@ -102,6 +115,7 @@ public class FeedToPushService {
 		if (channel.getName().toUpperCase()
 				.equals(Configuration.DEFAULT_CHANNEL_NAME.toUpperCase())) {
 			lastFeedDates.put(channel, torrent.getDate());
+			channelNotificationCounter.put(channel, oldCounter + 1);
 			return true;
 		}
 		String[] splitString = channel.getName().split(" ");
@@ -114,7 +128,12 @@ public class FeedToPushService {
 
 		System.out.println(torrent.toString());
 		lastFeedDates.put(channel, torrent.getDate());
+		channelNotificationCounter.put(channel, oldCounter + 1);
 		return true;
+	}
+
+	public HashMap<ChannelModel, Integer> fetchChannelListCounter() {
+		return channelNotificationCounter;
 	}
 
 	class TimerAction extends TimerTask {

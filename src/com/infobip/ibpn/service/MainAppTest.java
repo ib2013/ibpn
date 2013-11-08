@@ -1,5 +1,8 @@
 package com.infobip.ibpn.service;
 
+import java.util.ArrayList;
+
+import com.google.gson.JsonArray;
 import com.infobip.ibpn.models.ChannelModel;
 
 public class MainAppTest {
