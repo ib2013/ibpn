@@ -87,7 +87,6 @@ public class PushNotification {
 			request.setEntity(parms);
 			
 			HttpResponse response = client.execute(request);
-			System.out.println("RES: " + response.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
