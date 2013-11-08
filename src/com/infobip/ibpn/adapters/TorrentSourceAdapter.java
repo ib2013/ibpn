@@ -140,7 +140,6 @@ public class TorrentSourceAdapter implements SourceAdapter {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
-			System.out.println("Ne prolazi link!");
 			return new ArrayList<MessageModel>();
 		}
 	}
