@@ -1,6 +1,10 @@
 package com.infobip.ibpn.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import java.util.Iterator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -72,6 +76,30 @@ public class JsonHandler {
 			System.out.println(jsonObject);
 			jsonArray.add(jsonObject);
 		}
+		return jsonArray;
+	}
+	
+	public JsonArray ChannelMapCounterToJson(HashMap<ChannelModel,Integer> channelMap){
+		
+		JsonArray jsonArray = new JsonArray();
+		
+		Iterator i = (Iterator) (channelMap.keySet().iterator());
+
+		while(i.hasNext()) {
+			
+			JsonObject jsonObject = new JsonObject();
+			
+		    Map.Entry entry = (Map.Entry) i.next();
+		    ChannelModel channel = (ChannelModel) entry.getKey();
+		    Integer counter = (Integer) entry.getValue();
+		    
+		    jsonObject.addProperty("ime",channel.getName());
+		    jsonObject.addProperty("opis", channel.getDescription());
+		    jsonObject.addProperty("brojac", counter);
+		    
+		    jsonArray.add(jsonObject);
+		}
+		
 		return jsonArray;
 	}
 }

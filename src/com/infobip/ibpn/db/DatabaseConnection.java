@@ -128,7 +128,7 @@ public class DatabaseConnection {
 		try {
 			connect();
 			statement = connection.createStatement();
-			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID="
+			result = statement.execute("DELETE FROM RSS_POPIS WHERE ID_RSS="
 					+ model.getId() + ";");
 			result = true;
 		} catch (Exception e) {
