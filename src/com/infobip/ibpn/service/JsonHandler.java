@@ -63,11 +63,11 @@ public class JsonHandler {
 
 		System.out.println(channelList.size());
 
-		for (ChannelModel Kanal : channelList) {
+		for (ChannelModel channel : channelList) {
 			JsonObject jsonObject = new JsonObject();
 
-			jsonObject.addProperty("ime", Kanal.getName());
-			jsonObject.addProperty("opis", Kanal.getDescription());
+			jsonObject.addProperty("ime", channel.getName());
+			jsonObject.addProperty("opis", channel.getDescription());
 
 			System.out.println(jsonObject);
 			jsonArray.add(jsonObject);
