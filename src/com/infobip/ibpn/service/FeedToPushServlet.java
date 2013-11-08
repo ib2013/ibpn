@@ -51,6 +51,8 @@ public class FeedToPushServlet extends HttpServlet {
 
 		PushNotification pushNotification = new PushNotification();
 		pushNotification.broadcastDeletedChannel(channel.getName());
+		
+		response.getWriter().write("success");
 	}
 
 }
