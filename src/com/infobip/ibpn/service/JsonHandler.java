@@ -9,74 +9,69 @@ import com.infobip.ibpn.models.RssPopisModel;
 import com.infobip.ibpn.models.RssSourceModel;
 
 public class JsonHandler {
-	public RssPopisModel JSONtoRssPopisModel(JsonObject parse) {
-		int RSSfk = Integer.parseInt(parse.get("rss_fk").toString());
-		String RSSuri = parse.get("rss_uri").toString().replace('"', ' ');
-		String RSSdesc = parse.get("rss_description").toString()
-				.replace('"', ' ');
+	
+	public RssPopisModel JSONtoRssPopisModel(JsonObject jSonObject) {
+		int rssFK = Integer.parseInt(jSonObject.get("rss_fk").toString());
+		String rssUrl = jSonObject.get("rss_uri").toString().replace('"', ' ');
+		String rssDescription = jSonObject.get("rss_description").toString().replace('"', ' ');
 
-		RssPopisModel model = new RssPopisModel(0, RSSuri, RSSdesc, RSSfk);
+		RssPopisModel model = new RssPopisModel(0, rssUrl, rssDescription, rssFK);
 
 		return model;
 	}
 
-	public JsonArray RssPopisModelArrayListToJson(
-			ArrayList<RssPopisModel> modelToJSON) {
+	public JsonArray RssPopisModelArrayListToJson(ArrayList<RssPopisModel> rssPopisModelList) {
 
-		JsonArray vrati = new JsonArray();
+		JsonArray jsonArray = new JsonArray();
 
-		System.out.println(modelToJSON.size());
+		System.out.println(rssPopisModelList.size());
 
-		for (RssPopisModel model : modelToJSON) {
-			JsonObject objekt = new JsonObject();
+		for (RssPopisModel model : rssPopisModelList) {
+			JsonObject jsonObject = new JsonObject();
 
-			objekt.addProperty("id", model.getId());
-			objekt.addProperty("Rss", model.getRssFeed());
-			objekt.addProperty("rss_opis", model.getOpis());
-			objekt.addProperty("fk", model.getIdRssSource());
+			jsonObject.addProperty("id", model.getId());
+			jsonObject.addProperty("Rss", model.getRssFeed());
+			jsonObject.addProperty("rss_opis", model.getOpis());
+			jsonObject.addProperty("fk", model.getIdRssSource());
 
-			System.out.println(objekt);
-			vrati.add(objekt);
+			System.out.println(jsonObject);
+			jsonArray.add(jsonObject);
 		}
-
-		return vrati;
+		return jsonArray;
 	}
 
-	public JsonArray RssSourceModelArrayListToJson(
-			ArrayList<RssSourceModel> modelToJSON) {
+	public JsonArray RssSourceModelArrayListToJson(ArrayList<RssSourceModel> rssSourceModelList) {
 
-		JsonArray vrati = new JsonArray();
+		JsonArray jsonArray = new JsonArray();
 
-		System.out.println(modelToJSON.size());
+		System.out.println(rssSourceModelList.size());
 
-		for (RssSourceModel model : modelToJSON) {
-			JsonObject objekt = new JsonObject();
+		for (RssSourceModel model : rssSourceModelList) {
+			JsonObject jsonObject = new JsonObject();
 
-			objekt.addProperty("id", model.getId());
-			objekt.addProperty("type", model.getSourceName());
-			System.out.println(objekt);
-			vrati.add(objekt);
+			jsonObject.addProperty("id", model.getId());
+			jsonObject.addProperty("type", model.getSourceName());
+			System.out.println(jsonObject);
+			jsonArray.add(jsonObject);
 		}
-
-		return vrati;
+		return jsonArray;
 	}
 
-	public JsonArray ChannelArrayToJson(ArrayList<ChannelModel> _Kanali) {
+	public JsonArray ChannelArrayToJson(ArrayList<ChannelModel> channelList) {
 
-		JsonArray vrati = new JsonArray();
+		JsonArray jsonArray = new JsonArray();
 
-		System.out.println(_Kanali.size());
+		System.out.println(channelList.size());
 
-		for (ChannelModel Kanal : _Kanali) {
-			JsonObject objekt = new JsonObject();
+		for (ChannelModel Kanal : channelList) {
+			JsonObject jsonObject = new JsonObject();
 
-			objekt.addProperty("ime", Kanal.getName());
-			objekt.addProperty("opis", Kanal.getDescription());
+			jsonObject.addProperty("ime", Kanal.getName());
+			jsonObject.addProperty("opis", Kanal.getDescription());
 
-			System.out.println(objekt);
-			vrati.add(objekt);
+			System.out.println(jsonObject);
+			jsonArray.add(jsonObject);
 		}
-
-		return vrati;
+		return jsonArray;
 	}
 }
