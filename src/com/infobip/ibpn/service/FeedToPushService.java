@@ -45,7 +45,7 @@ public class FeedToPushService {
 		for (ChannelModel channel : channelList) {
 			if (!lastFeedDates.containsKey(channel)) {
 				Date date = new Date();
-				date.setTime(date.getTime() - 60 * 60 * 3000);
+				date.setTime(date.getTime() - 60 * 60 * 1000);
 				lastFeedDates.put(channel, date);
 			}
 			if (!channelNotificationCounter.containsKey(channel)) {
