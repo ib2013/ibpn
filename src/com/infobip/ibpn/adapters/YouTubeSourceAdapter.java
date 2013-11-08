@@ -115,13 +115,15 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 								"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
 						try {
+							System.out.println(published);
 							Date date = formatter.parse(published.substring(0,
 									24));
 							message.setDate(date);
+							feed.addMessage(message);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						feed.addMessage(message);
+						
 						event = eventReader.nextEvent();
 						continue;
 					}

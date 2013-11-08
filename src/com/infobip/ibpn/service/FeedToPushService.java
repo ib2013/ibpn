@@ -45,7 +45,7 @@ public class FeedToPushService {
 		for (ChannelModel channel : channelList) {
 			if (!lastFeedDates.containsKey(channel)) {
 				Date date = new Date();
-				date.setTime(date.getTime() - 60 * 60 * 1000);
+				date.setTime(date.getTime() - 60 * 60 * 3000);
 				lastFeedDates.put(channel, date);
 			}
 			if (!channelNotificationCounter.containsKey(channel)) {
@@ -116,6 +116,7 @@ public class FeedToPushService {
 				.equals(Configuration.DEFAULT_CHANNEL_NAME.toUpperCase())) {
 			lastFeedDates.put(channel, torrent.getDate());
 			channelNotificationCounter.put(channel, oldCounter + 1);
+			System.out.println(torrent.toString());
 			return true;
 		}
 		String[] splitString = channel.getName().split(" ");
@@ -126,6 +127,7 @@ public class FeedToPushService {
 			}
 		}
 
+		System.out.println(torrent.toString());
 		lastFeedDates.put(channel, torrent.getDate());
 		channelNotificationCounter.put(channel, oldCounter + 1);
 		return true;

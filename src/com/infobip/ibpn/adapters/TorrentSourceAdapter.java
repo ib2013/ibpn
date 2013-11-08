@@ -100,9 +100,14 @@ public class TorrentSourceAdapter implements SourceAdapter {
 						message.setDescription(description);
 						message.setLink(guid);
 						message.setTitle(title);
-						message.setDate(new Date(pubdate));
 						message.setId(1); // id za TPB
-						feed.addMessage(message);
+						try {
+							message.setDate(new Date(pubdate));
+							feed.addMessage(message);
+						}
+						catch(Exception e) {
+							e.printStackTrace();
+						}
 						event = eventReader.nextEvent();
 						continue;
 					}
