@@ -152,10 +152,15 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 	}
 
 	public ArrayList<MessageModel> getMessages() {
-		if (this.url != null) {
+		if (this.url != null
+				&& (this.url.toString().startsWith(
+						"http://gdata.youtube.com/feeds/api/") || this.url
+						.toString().startsWith(
+								"https://gdata.youtube.com/feeds/api/"))) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
+			System.out.println("Ne prolazi link!");
 			return new ArrayList<MessageModel>();
 		}
 	}

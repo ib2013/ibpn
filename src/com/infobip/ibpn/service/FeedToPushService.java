@@ -55,9 +55,9 @@ public class FeedToPushService {
 
 		updateUsersWithNotifications(messagesList, channelList);
 		
-		for (ChannelModel channel : channelList){
+		/*for (ChannelModel channel : channelList){
 			System.out.println(channel.getName() + ": " + channelNotificationCounter.get(channel));
-		}
+		}*/
 	}
 
 	private ArrayList<MessageModel> fetchMessageModelListFromSources(

@@ -133,10 +133,14 @@ public class TorrentSourceAdapter implements SourceAdapter {
 	}
 
 	public ArrayList<MessageModel> getMessages() {
-		if (this.url != null) {
+		if (this.url != null
+				&& (this.url.toString().startsWith(
+						"http://rss.thepiratebay.sx/") || this.url.toString()
+						.startsWith("https://rss.thepiratebay.sx/"))) {
 			feed = this.readFeed();
 			return feed.getMessages();
 		} else {
+			System.out.println("Ne prolazi link!");
 			return new ArrayList<MessageModel>();
 		}
 	}
