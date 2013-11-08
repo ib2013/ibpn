@@ -126,10 +126,13 @@ public class FeedToPushService {
 			}
 		}
 
-		System.out.println(torrent.toString());
 		lastFeedDates.put(channel, torrent.getDate());
 		channelNotificationCounter.put(channel, oldCounter + 1);
 		return true;
+	}
+	
+	public boolean checkDates() {
+		return false;
 	}
 
 	public HashMap<ChannelModel, Integer> fetchChannelListCounter() {
