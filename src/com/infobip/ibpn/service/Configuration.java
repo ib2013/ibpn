@@ -3,7 +3,7 @@ package com.infobip.ibpn.service;
 import java.util.Date;
 
 public class Configuration {
-	public static final long REFRESH_INTERVAL = 5000;
+	public static final long REFRESH_INTERVAL = 10000;
 	public static final long START_DELAY = 500;
 	public static final String APPLICATION_ID = "9cabf301d3db";
 	public static final Date DEFAULT_DATE = new Date(92, 2, 6);

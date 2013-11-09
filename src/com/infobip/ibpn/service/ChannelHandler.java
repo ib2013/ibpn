@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,9 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.infobip.ibpn.models.ChannelModel;
-import com.infobip.ibpn.models.RssPopisModel;
-import com.infobip.ibpn.models.RssSourceModel;
 
+@SuppressWarnings("deprecation")
 public class ChannelHandler {
 	public ArrayList<ChannelModel> fetchChannelList() {
 		ArrayList<ChannelModel> channelList;

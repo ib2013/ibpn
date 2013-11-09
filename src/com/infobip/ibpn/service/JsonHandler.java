@@ -2,7 +2,6 @@ package com.infobip.ibpn.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.JsonArray;

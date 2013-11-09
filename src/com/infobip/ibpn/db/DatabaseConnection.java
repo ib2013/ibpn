@@ -121,7 +121,6 @@ public class DatabaseConnection {
 		return result;
 	}
 
-	@SuppressWarnings("finally")
 	public boolean deleteFromRssPopis(RssPopisModel model) {
 		boolean result = false;
 		Statement statement = null;
@@ -145,7 +144,6 @@ public class DatabaseConnection {
 		return result;
 	}
 
-	@SuppressWarnings("finally")
 	public boolean insertIntoRssSource(RssSourceModel model) {
 
 		boolean result = false;

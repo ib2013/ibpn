@@ -57,6 +57,7 @@ public class YouTubeSourceAdapter implements SourceAdapter {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private FeedModel readFeed() {
 		try {
 			boolean isFeedHeader = true;

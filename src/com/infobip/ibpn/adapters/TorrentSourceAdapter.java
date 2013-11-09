@@ -45,6 +45,7 @@ public class TorrentSourceAdapter implements SourceAdapter {
 		}
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private FeedModel readFeed() {
 		try {
 			boolean isFeedHeader = true;
