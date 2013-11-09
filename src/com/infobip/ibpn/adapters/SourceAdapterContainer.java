@@ -8,8 +8,8 @@ public class SourceAdapterContainer {
 	public SourceAdapterContainer() {
 		adapters = new ArrayList<SourceAdapter>();
 
-		adapters.add(new TorrentSourceAdapter());
 		adapters.add(new YouTubeSourceAdapter());
+		adapters.add(new TorrentSourceAdapter());
 	}
 
 	public ArrayList<SourceAdapter> getAdapters() {

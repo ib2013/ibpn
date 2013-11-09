@@ -14,9 +14,9 @@ public class JsonHandler {
 
 	public RssPopisModel JSONtoRssPopisModel(JsonObject jSonObject) {
 		int rssFK = Integer.parseInt(jSonObject.get("rss_fk").toString());
-		String rssUrl = jSonObject.get("rss_uri").toString().replace('"', ' ');
+		String rssUrl = jSonObject.get("rss_uri").toString().replace('"', ' ').substring(1);
 		String rssDescription = jSonObject.get("rss_description").toString()
-				.replace('"', ' ');
+				.replace('"', ' ').substring(1);
 
 		RssPopisModel model = new RssPopisModel(0, rssUrl, rssDescription,
 				rssFK);
